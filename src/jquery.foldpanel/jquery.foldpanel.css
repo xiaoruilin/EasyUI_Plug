@@ -1,0 +1,90 @@
+﻿.easyui-foldpanel .l-btn-slide-down {
+    background: url('./Images/slide_down.png') 50% 40% no-repeat scroll;
+    width: 40px;
+    height: 30px;
+}
+
+.easyui-foldpanel .l-btn-slide-up {
+    background: url('./Images/slide_up.png') 50% 40% no-repeat scroll;
+    width: 40px;
+    height: 30px;
+}
+
+.easyui-foldpanel .l-btn-slide-down-sm {
+    background: url('./Images/l-btn-slide-down.png') 50% 40% no-repeat scroll;
+    width: 40px;
+    height: 30px;
+}
+
+.easyui-foldpanel .l-btn-slide-up-sm {
+    background: url('./Images/l-btn-slide-up.png') 50% 40% no-repeat scroll;
+    width: 40px;
+    height: 30px;
+}
+
+.easyui-foldpanel .l-btn-iconEx {
+    height: 30px;
+    margin-top: 4px;
+    margin-left: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+    right: 5px;
+}
+.easyui-foldpanel .l-div-title {
+    border-top: 2px solid #4c758b;
+    border-left: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-bottom: 1px solid #CECECE;
+    height: 45px;
+    line-height: 35px
+}
+
+    .easyui-foldpanel .l-div-title .plit_title_NewMain {
+        color: rgb(96, 129, 148);
+        font-size: 16px;
+        font-family: 宋体;
+        font-weight: bold;
+        height: 40px;
+        line-height: 40px;
+        float: left;
+        padding-left: 50px;
+        padding-right: 20px;
+        background: url(./Images/default_foldpanel_titleico.png) 10% 50% no-repeat;
+    }
+
+.easyui-foldpanel .l-div-title-top10 {
+    border-left: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-top: 1px solid #CECECE;
+    margin-top: 10px;
+}
+
+.easyui-foldpanel .l-div-title-top20 {
+    border-left: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-top: 1px solid #CECECE;
+    margin-top: 20px;
+}
+
+.easyui-foldpanel .l-div-title-top50 {
+    border-left: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-top: 1px solid #CECECE;
+    margin-top: 20px
+}
+
+.easyui-foldpanel .l-div-content {
+    border-left: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-bottom: 1px solid #CECECE;
+    padding-left: 0px;
+    padding-right: 30px;
+}

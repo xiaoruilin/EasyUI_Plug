@@ -1,0 +1,49 @@
+﻿{
+  "MaxID": 0,
+  "_Items": [
+    {
+      "GroupID": "1",
+      "ObjID": null,
+      "GroupName": "意见文档",
+      "FileExtLimit": null,
+      "FileSizeLimit": 102400,
+      "GroupParams": 1,
+      "Description": null,
+      "MaxID": 0,
+      "_Items": [
+        {
+          "AttID": "f9175168-8066-4dba-879d-e976bd7be092",
+          "AttName": "Zszb指标.xml",
+          "FilePath": "../UploadProject/f9175168-8066-4dba-879d-e976bd7be092.xml",
+          "SouFilePath": "../UploadProject/f9175168-8066-4dba-879d-e976bd7be092.xml",
+          "FileSize": 12663,
+          "UploadTime": "2017-08-11T16:45:46",
+          "Uploader": null,
+          "Description": null
+        }
+      ]
+    },
+    {
+      "GroupID": "2",
+      "ObjID": null,
+      "GroupName": "预算书及工程量计算书",
+      "FileExtLimit": null,
+      "FileSizeLimit": 102400,
+      "GroupParams": 0,
+      "Description": null,
+      "MaxID": 0,
+      "_Items": []
+    },
+    {
+      "GroupID": "3",
+      "ObjID": null,
+      "GroupName": "审核成果对比表",
+      "FileExtLimit": null,
+      "FileSizeLimit": 102400,
+      "GroupParams": 0,
+      "Description": null,
+      "MaxID": 0,
+      "_Items": []
+    }
+  ]
+}

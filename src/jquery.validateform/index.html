@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="/Resource/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/icon.css" rel="stylesheet" />
+    <link href="/Content/Css/EasyUi.ex.css" rel="stylesheet" />
+    <style type="text/css">
+        li {
+            float: left;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .ClassMatTypeClick {
+            color: #2288d9;
+        }
+
+        .TitleClassClick {
+            float: left;
+            height: 25px;
+            background: #b6a7c9;
+            color: white;
+            line-height: 25px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid;
+            border-radius: 3px;
+        }
+
+        .gradeBtn {
+            background-color: #00A9E4;
+            border: none;
+            color: white;
+            height: 25px;
+            width: 100px;
+            float: left;
+            text-align: center;
+            line-height: 25px;
+            cursor: pointer;
+        }
+
+        .TitleClass {
+            float: left;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            border: 0.5px solid #d6d6d6;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /*li {
+            margin-left: -30px;
+        }*/
+
+        .li-line {
+            float: left;
+            line-height: 25px;
+            font-weight: 600;
+        }
+
+        #info .datagrid-header {
+            position: absolute;
+            visibility: hidden;
+        }
+
+        .tooltip-right {
+            border: 1px red;
+            opacity: 0.85;
+            filter: alpha(opacity=85);
+        }
+
+        .djj_div {
+            width: 60%;
+            height: 100px;
+            float: left;
+            color: #919191;
+        }
+
+            .djj_div div {
+                height: 22px;
+                line-height: 22px;
+                margin-left: 10px;
+                margin-left: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 316px;
+            }
+
+        .yjj_div {
+            width: 55%;
+            height: 100px;
+            float: left;
+            color: #919191;
+        }
+
+            .yjj_div div {
+                height: 22px;
+                line-height: 22px;
+                margin-left: 10px;
+                margin-left: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 280px;
+            }
+
+        .dfp_div {
+            width: 55%;
+            height: 100px;
+            float: left;
+            color: #919191;
+        }
+
+            .dfp_div div {
+                height: 25px;
+                line-height: 25px;
+                margin-left: 10px;
+                margin-left: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 266px;
+            }
+
+        em {
+            color: #c00;
+            font-style: normal;
+        }
+    </style>
+    <script src="/Resource/jquery-1.11.3.min.js"></script>
+    <script src="/Resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Resource/jquery.cookie.js"></script>
+    <script src="/Resource/json2.min.js"></script>
+    <script src="/Resource/EasyUI/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="/Resource/EasyUI/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/Resource/easyui.extend.js"></script>
+    <script src="/Resource/JsCommon.js"></script>
+    <script src="jquery.validateform.js"></script>
+    <script type="text/javascript">
+        function GetFormData() {
+            console.info($(this));
+            if ($('#formdiv').validateform('validateform', [1])) {
+                alert('保存成功');
+            }
+        }
+
+        $(function () {
+            $('#savebtn').click(function () {
+                //if ($('#formdiv').validateform('validateformlable', [1])) {
+                //    alert('保存成功');
+                //}
+                if ($('#formdiv').validateform('validateform', [1])) {
+                    alert('保存成功');
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div  id="formdiv" class="easyui-validateform" data-options="novalidate:false,stages:[1]">
+        <input type="text" id="ProjectTime" valname="Project.ProjectTime" class="easyui-validatebox easyui-datebox"
+               required data-options="validType:['gtMinDate'],invalidMessage:'请选择正确的立项时间',novalidate:true,stage:1"
+               style="width:180px;position: relative" />
+        <!--<input type="text" id="ChangeTime" valname="ChangeTime" class="easyui-datebox easyui-validatebox" 
+               required data-options="editable:false,validType:'gtMinDate',invalidMessage:'请选择正确的变更时间',novalidate:true,stage:2" 
+               style="width:180px;position: relative"/>-->
+        <label id="EditorOrgCode" class="easyui-validatebox"
+               data-options="required:true,missingMessage:'请先录入组织机构代码1',novalidate:true,stage:1"
+               valname="EditorOrgCode" placeholder="请填写编制机构组织机构代码1" name="disabled" >sssss</label>
+        <!--<input type="text" id="EditorOrgCode" class="form-control input-sm easyui-validatebox" 
+               data-options="required:true,missingMessage:'请先录入组织机构代码',novalidate:true,stage:1" 
+               valname="EditorOrgCode" placeholder="请填写编制机构组织机构代码" name="disabled" />-->
+        <input type="button" id="savebtn" value="保存" />
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="/Resource/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/icon.css" rel="stylesheet" />
+    <link href="/Content/Css/EasyUi.ex.css" rel="stylesheet" />
+    <script src="/Resource/jquery-1.11.3.min.js"></script>
+    <script src="/Resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Resource/jquery.cookie.js"></script>
+    <script src="/Resource/json2.min.js"></script>
+    <script src="/Resource/EasyUI/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="/Resource/EasyUI/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/Resource/easyui.extend.js"></script>
+    <script src="/Resource/JsCommon.js"></script>
+    <script src="jquery.validateform.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#savebtn').click(function () {
+                var childWindow1 = $("#iframeCompanyGeneral")[0].contentWindow;
+                childWindow1.GetFormData();
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <iframe id="iframeCompanyGeneral" style="width: 100%; height: 741px; border: 0; padding: 0; display: block" 
+            src="index.html"></iframe>
+    <input type="button" id="savebtn" value="保存" />
+</body>
+</html>

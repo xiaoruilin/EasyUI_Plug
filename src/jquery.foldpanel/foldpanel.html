@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Resource/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/icon.css" rel="stylesheet" />
+    <link href="/Css/EasyUi.ex.css" rel="stylesheet" />
+    <link href="../../Scripts/jquery.foldpanel/jquery.foldpanel.css" rel="stylesheet" />
+
+    <script src="/Resource/jquery-1.11.3.min.js"></script>
+    <script src="Resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Resource/jquery.cookie.js"></script>
+    <script src="/Resource/json2.min.js"></script>
+    <script src="/Resource/EasyUI/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="/Resource/easyui.extend.js"></script>
+    <script src="/Resource/JsCommon.js"></script>
+    <script src="../../Scripts/jquery.foldpanel/jquery.foldpanel.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //$('#foldpanel1').foldpanel('changelogo', './Images/orange-8.png');
+            $("#foldpanel12").foldpanel("foldcontent");
+        });
+    </script>
+</head>
+<body>
+    <div id="foldpanel1" class="easyui-foldpanel" data-options="fold:false,titlebar:'#div_btn1',contentbar:'#div_center1',fold:true,
+         classArr:{ slideup: 'l-btn-slide-up-sm', slidedown: 'l-btn-slide-down-sm' },onFold(){
+            console.info('fold');
+         },onOpen(){
+            console.info('option');
+         }">
+        <div id="div_btn1" class="l-div-title">
+            <img class="title-logo" style="height: 25px;" src="./Images/orange-8.png" /><b style="color: #6087B1; font-size: 13px;">项目信息</b>
+            <a id="btn_Cable1" href="javascript:;" class="l-btn-iconEx l-btn-slide-up-sm" style="float: right; right: 5px;"></a>
+            <div style="height: 3px; border: none; background-color: #ABCFE9;"></div>
+        </div>
+        <div class="l-div-content" id="div_center1" style="display: none">
+            我是内容页
+        </div>
+    </div>
+    <br />
+    <div id="foldpanel12" class="easyui-foldpanel" data-options="fold:false,titlebar:'#div_btn2',contentbar:'#div_center2',
+         classArr:{ slideup: 'l-btn-slide-up-sm', slidedown: 'l-btn-slide-down-sm' },onFold(){
+            console.info('fold');
+         },onOpen(){
+            console.info('option');
+         }">
+        <div id="div_btn2" class="l-div-title" style="border-bottom:1px solid #CECECE;">
+            <div style="height: 2px; border: none; background-color: #4C758B;"></div>
+            <img class="title-logo" style="height: 25px;" src="./Images/orange-8.png" /><b style="color: #6087B1; font-size: 13px;">项目信息</b>
+            <a id="btn_Cable1" href="javascript:;" class="l-btn-iconEx l-btn-slide-up-sm" style="float: right; right: 5px;"></a>
+        </div>
+        <div class="l-div-content" id="div_center2" style="display: none">
+            我是内容页1
+        </div>
+    </div>
+    
+</body>
+</html>

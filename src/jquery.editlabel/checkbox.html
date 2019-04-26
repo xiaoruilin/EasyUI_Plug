@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>复选框及单选框</title>
+    <link href="/Resource/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="/Resource/EasyUI/themes/icon.css" rel="stylesheet" />
+    <link href="/Content/Css/EasyUi.ex.css" rel="stylesheet" />
+    <link href="/Content/Css/style.css" rel="stylesheet" />
+    <link href="jquery.editlabel.css" rel="stylesheet" />
+    <style type="text/css">
+        .checkboxmagin div {
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div_center2" class="easyui-editlabel easyui-validateform">
+        <div class="container-fluid form-container">
+            <div class="row">
+                <div class="col-xs-3 text-right form-label">爱好：</div>
+                <div class="col-xs-3 text-left form-content">
+                    <label id="idHobby" class="easyui-checkbox" valname="Hobby" data-options="required:true,retIsArr:true,missingMessage:'注册时间',novalidate:true,stage:2,class:'checkboxmagin',space:'、',
+                           data:[{id:'蓝球',text:'蓝球',disabled:true},{id:'足球',text:'足球'},{id:'排球',text:'排球'},{id:'乒乓球',text:'乒乓球'},{id:'棒球',text:'棒球'}],horizontal:true"></label>
+                </div>
+                <div class="col-xs-2 text-right form-label">是否通过：</div>
+                <div class="col-xs-3 text-left form-content">
+                    <label id="idIsPass" class="easyui-radio" valname="IsPass" data-options="missingMessage:'是否通过',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="FloatMenu_Bottom" style="width: 100%;">
+        <div class="btn_content_V" style="width: 100%;">
+            <a id="company_all_submit" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)" style="width: 80px;">提交</a>
+            <a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal easyui-whereshowele" data-options="isShow:('<%=Option %>'==1 || '<%=Option %>'==2)" href="javascript:void(0)" style="width: 80px;">保存</a>
+            <a id="company_banck" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)" style="width: 80px;" onclick="javascript:parent.closeTab('', true);">返回</a>
+        </div>
+    </div>
+
+    <script src="/Resource/jquery-1.11.3.min.js"></script>
+    <script src="/Resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Resource/jquery.cookie.js"></script>
+    <script src="/Resource/json2.min.js"></script>
+    <script src="/Resource/EasyUI/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="/Resource/EasyUI/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/Resource/easyui.extend.js"></script>
+    <script src="/Resource/JsCommon.js"></script>
+    <script src="../../../Resource/webuploader.min.js"></script>
+    <script src="/Content/Scripts/jquery.filegridui/jquery.filegridui.js"></script>
+    <script src="/Content/Scripts/jquery.validateform/jquery.validateform.js"></script>
+    <script src="jquery.editlabel.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#company_all_submit').click(function () {
+                console.info($('#idHobby').checkbox("getValue"));
+                console.info($('#idIsPass').radio("getValue"));
+            });
+        });
+    </script>
+
+</body>
+</html>

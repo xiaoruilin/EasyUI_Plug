@@ -1,0 +1,12 @@
+.icon-user { background: url('iconsEx/user.png') no-repeat center center; }
+.icon-user-add { background: url('iconsEx/user_add.png') no-repeat center center; }
+.icon-user-delete { background: url('iconsEx/user_delete.png') no-repeat center center; }
+.icon-user-edit { background: url('iconsEx/user_edit.png') no-repeat center center; }
+.icon-group { background: url('iconsEx/group.png') no-repeat center center; }
+.icon-group-add { background: url('iconsEx/group_add.png') no-repeat center center; }
+.icon-group-delete { background: url('iconsEx/group_delete.png') no-repeat center center; }
+.icon-group-edit { background: url('iconsEx/group_edit.png') no-repeat center center; }
+.icon-group-set { background: url('iconsEx/group_set.png') no-repeat center center; }
+
+.icon-attach { background: url('iconsEx/attach.png') no-repeat center center; }
+.icon-setting { background: url('iconsEx/setting.png') no-repeat center center; }
