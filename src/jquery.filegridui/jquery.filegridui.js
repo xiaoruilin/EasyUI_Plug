@@ -578,6 +578,66 @@
         onOneKeyDown: function () { },
         //正式使用必须重写这个方法
         upfilebtnfun: function (i, o, fileAccept, _this) {
+            WebUploader.Uploader.register({
+                "before-send-file":"beforeSendFile",
+                "before-send": "beforeSend"
+            }, {
+                "beforeSendFile": function (file) {
+                    console.info(file);
+                    var deferred = WebUploader.Deferred();
+                    $.ajax({
+                        url: _this.opts.uploaderServer+"files",
+                        type:'POST',
+                        data: {
+                            fileName:file.name,
+                            //file:{FileName:file.name,ContentType:file.ContentType,file.},
+                            hash:'',//hex_sha1(file.name + file.size + file.ext),
+                            periodMinute:0,
+                            ownerToken:'2zDtthhs3ezecS3CGLJn4orDWdhcCAAAAAQAAAAEAAAAAXUv5uw'
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            chunkObj = data;
+                            chunkObj.type = data.type;
+                            chunkObj.chunk == data.chunk;
+                            if (data.type == 0) {
+                                 
+                                deferred.reject();
+                                $("#" + file.id).find(".state").text("文件已上传");
+                            } else if (data.type == 1) {
+                                if (data.chunk) {
+                                    deferred.resolve();
+                                }
+                            } else {
+                                deferred.resolve();
+                            }
+                             
+                        },
+                        error: function () {
+                            deferred.resolve();
+                        }
+                    })
+                    //deferred.resolve();
+                    return deferred.promise();
+                },
+                "beforeSend": function (block) {
+                    var deferred = WebUploader.Deferred();
+                    var curChunk = block.chunk;
+                    var totalChunk = block.chunks;
+                    if (chunkObj.type == "1") {
+                        if (curChunk < chunkObj.chunk) {
+                            deferred.reject();
+                        } else {
+                            deferred.resolve();
+                        }
+                    } else {
+                        deferred.resolve();
+                    }
+                    return deferred.promise();
+                }
+            });
+
             var $pickerwuhidden= $('<div style="display:none;"></div>').appendTo('body').end();
             var uploader = WebUploader.create({
                 auto: true,

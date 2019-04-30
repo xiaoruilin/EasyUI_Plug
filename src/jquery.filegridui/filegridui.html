@@ -30,6 +30,7 @@
     <script src="../../easyui1.5.4.5/jquery.easyui.1.5.4.5.min.js"></script>
     <script src="../../easyui1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
     <script src="../../webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="../../sha1.js"></script>
     <script type="text/javascript" src="jquery.filegridui.js"></script>
     <script type="text/javascript">
 
@@ -114,7 +115,7 @@
                     fileItem.FileName = file.name;
                     fileItem.FileSize = file.size;
                     return fileItem;
-                }, isFileGroup: false, uploaderServer: "http://192.0.0.218:4362/Service/PsFileSvr.svrx"
+                }, isFileGroup: false, uploaderServer: "http://localhost:5001/"
             };
 
             $('#fg').filegridui(opts2);
