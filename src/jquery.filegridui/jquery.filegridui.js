@@ -107,11 +107,11 @@
      * @param {any} opts 选项
      * @param {any} coltd 列的Td
      */
-    function LoadIsListTd(_this,col, colOptsb, i, opts, coltd) {
+    function LoadIsListTd(_this, col, colOptsb, i, opts, coltd) {
         //列表字段
         if (col.islist) {
             var $filelistdivList = coltd.find("div[class=filelistdiv]");
-            var $filelistdiv = ($filelistdivList && $filelistdivList.length > 0) ? $($filelistdivList[0]):null;
+            var $filelistdiv = ($filelistdivList && $filelistdivList.length > 0) ? $($filelistdivList[0]) : null;
             coltd.attr("islistrow", i);
             var listdiv = "";
             if (!$filelistdiv) {
@@ -153,7 +153,7 @@
                 }
             }
 
-            if (!$filelistdivList || $filelistdivList.length <1) {
+            if (!$filelistdivList || $filelistdivList.length < 1) {
                 coltd.append($filelistdiv);
             }
 
@@ -251,7 +251,7 @@
 
         //循环每行数据
         $(dataBase).each(function (i, colOptsb) {
-            
+
             var trtds = $('<tr></tr>');
             $(columns).each(function (j, colOpts) {
                 $(colOpts).each(function (k, col) {
@@ -279,7 +279,7 @@
                     }
 
                     //加载列表列
-                    LoadIsListTd(_this,col, colOptsb, i, opts, coltd);
+                    LoadIsListTd(_this, col, colOptsb, i, opts, coltd);
 
                     //向内部加入单元格值
                     if (colval) {
@@ -320,51 +320,8 @@
             tablehtml.append($(trtds));
             //绑定上传文件事件
             trtds.find(".fg-upfilebtn").each(function (i, o) {
-                var uploader = '';  //页面可共用一个上传组件
-                $(o).click(function () {
-                    uploader.uploadFile(); //开启文件选择框, 选择后自动上传
-                    var upfilebtnData = $(this).data("upfilebtnData");
-                    if (_this.opts.onUploadFile) {
-                        _this.opts.onUploadFile.call(this, upfilebtnData.value, upfilebtnData.rowData, upfilebtnData.rowindex);
-                    }
-                });
                 var fileAccept = colOptsb.accept || _this.opts.accept || undefined;
-                uploader = $.uploader({
-                    server: _this.opts.uploaderServer, //默认此服务路径
-                    //multiple:false,  //单选文件, 默认多选
-                    accept: colOptsb.accept || _this.opts.accept || undefined,
-                    //chunkSize: 2 * 1024 * 1024,//默认2M文件,大于2M自动分片上传,大于2M需要服务器修改对应web.config文件
-                    beforeFileQueued: function (file) {
-                        //return false;  //阻止该文件上传
-                    },
-                    //filesQueued: function (files) {//一般用此事件做页面信息提示
-                    //    $.each(files, function (i, item) {
-                    //        dvObj.append('<div id="{id}">{name} <span></span><a href="javascript:void(0)" class="cancelfilebtn" fileId="{id}">取消</a></div>'.Format(item));
-                    //    });
-                    //},
-                    uploadProgress: function (file, percent) {//一般用此事件做页面信息提示
-                        //trtds.find('.progressDiv span').html(percent == 1 ? '正在合并文件' : (percent < 0 ? ' 计算md5进度:' : ' 上传进度:') + Math.floor(percent * 100));
-                    },
-                    uploadSuccess: function (file, response) {
-                        var filedata = _this.opts.onUploadSuccess(file, response) || {};
-                        console.info(filedata);
-                        _this.filegridui("addChildRow", { parentindex: i, childRowObj: filedata });
-                    }
-                }).on("error", function (type) {
-                    if (type == "Q_TYPE_DENIED") {
-                        var typeError = "请选择正确文件类型！";
-                        if (fileAccept && fileAccept.title) {
-                            typeError = fileAccept.title;
-                        }
-                        $.messager.alert("提示信息", typeError,"info");
-                    }
-                    //else if (type == "Q_EXCEED_SIZE_LIMIT") {
-                    //    layer.msg("文件大小不能超过2M");
-                    //}
-                    else {
-                        layer.msg("上传出错！请检查后重新上传！错误代码" + type);
-                    }
-                });;
+                _this.opts.upfilebtnfun(i, o, fileAccept, _this);
             });
 
         });
@@ -374,10 +331,10 @@
         if (_this.opts.isLockFileDown) {
             _this.find('a').each(function () {
                 $(this).attr('href', 'javascript:void(0)');
-            });               
+            });
         }
 
-        
+
 
     }
 
@@ -399,29 +356,29 @@
             //if (state) {
             //    $.extend(state.options, options);
             //} else {
-                if (_this.opts.url) {
-                    $.ajaxSettings.async = false;
-                    $.getJSON(_this.opts.url, { IsItems: true }, function (_data) {
-                        
-                        options.data=_this.opts.data = _data;
-                    });
-                    $.ajaxSettings.async = true;
+            if (_this.opts.url) {
+                $.ajaxSettings.async = false;
+                $.getJSON(_this.opts.url, { IsItems: true }, function (_data) {
+
+                    options.data = _this.opts.data = _data;
+                });
+                $.ajaxSettings.async = true;
             }
 
-                if (!options.data) {
-                    options.data = { _Items: [] };
-                }
-                
-                if (!_this.opts.isFileGroup) {
-                    var _data1 = {};
-                    _data1[_this.opts.fileGroupFileListAttr] = options.data[_this.opts.fileGroupFileListAttr];
-                    options.data = _this.opts.data = { _Items: [_data1] };
-                }
+            if (!options.data) {
+                options.data = { _Items: [] };
+            }
 
-                state = $.data(this, 'filegridui', {
-                    options: $.extend({}, $.fn.filegridui.defaults, $.fn.filegridui.parseOptions(this), options),
-                    initobj: init(_this)
-                });
+            if (!_this.opts.isFileGroup) {
+                var _data1 = {};
+                _data1[_this.opts.fileGroupFileListAttr] = options.data[_this.opts.fileGroupFileListAttr];
+                options.data = _this.opts.data = { _Items: [_data1] };
+            }
+
+            state = $.data(this, 'filegridui', {
+                options: $.extend({}, $.fn.filegridui.defaults, $.fn.filegridui.parseOptions(this), options),
+                initobj: init(_this)
+            });
             //}
         });
     };
@@ -473,11 +430,11 @@
                     }
                 }
             }
-            
+
             return ret;
         },
         addChildRow: function (jq, param) {
-            var optsData= $.data(jq[0], 'filegridui');
+            var optsData = $.data(jq[0], 'filegridui');
             var opts = optsData.options;
             if (opts.onlyOneFile) {
                 var fileList = opts.data._Items[param.parentindex]._Items;
@@ -498,7 +455,7 @@
                 alert("文件组没有List列不能添加行文件！");
             }
             var coltd = $(jq[0]).find("td[islistrow='" + param.parentindex + "']");
-            LoadIsListTd($(jq[0]),col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
+            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
             optsData.options = opts;
             $(jq[0]).data('filegridui', optsData);
         },
@@ -518,7 +475,7 @@
                 alert("文件组没有List列不能删除文件！");
             }
             var coltd = $(jq[0]).find("td[islistrow='" + param.parentindex + "']");
-            LoadIsListTd($(jq[0]),col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
+            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
             optsData.options = opts;
             $(jq[0]).data('filegridui', optsData);
         },
@@ -545,7 +502,7 @@
                 _data1[_this.opts.fileGroupFileListAttr] = data[_this.opts.fileGroupFileListAttr];
                 data = { _Items: [_data1] };
             }
-            opts.data = data;            
+            opts.data = data;
             _this.opts = opts;
             return jq.each(function () {
                 $.data(this, 'filegridui', {
@@ -561,14 +518,14 @@
     };
 
     $.fn.filegridui.defaults = {
-        url:null,
-        data: {"_Items": []},
+        url: null,
+        data: { "_Items": [] },
         colwidth: '20px',
         align: "center",
         header: true,
         width: "95%",
         class: "table table-bordered",
-        classforshow:"",//查看模式下的类
+        classforshow: "",//查看模式下的类
         style: { "width": "95%" },
         columns: [
             [
@@ -618,6 +575,38 @@
         onDelFileAfter: function (parentindex, rowindex, _this) { },
         onUploadFile: function (groupid, groupname, fileextlimit, filesizelimit, rowindex) { },
         onUploadSuccess: function (file, response) { },//在文件上传成返回要存也的文件数据结构（可自定义） 如：{IDs:'',FileName:'',FileSize:'',UploadTime:''}
-        onOneKeyDown: function () { }
+        onOneKeyDown: function () { },
+        //正式使用必须重写这个方法
+        upfilebtnfun: function (i, o, fileAccept, _this) {
+            var $pickerwuhidden= $('<div style="display:none;"></div>').appendTo('body').end();
+            var uploader = WebUploader.create({
+                auto: true,
+                //swf: BASE_URL + '/js/Uploader.swf',
+                // 文件接收服务端。
+                server: _this.opts.uploaderServer,
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: {id:$pickerwuhidden[0]},//'.pickerwebuploaderhidden',
+                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                resize: false
+            });
+
+            $(o).click(function () {
+                var tmp = $pickerwuhidden.find(':input[type="file"]').next();
+                if (tmp.length) {
+                    tmp.click();
+                }
+                else {
+                    setTimeout(function () {
+                        pickerwuhidden.find(':input[type="file"]').next().click();
+                    }, 100);
+                }
+
+                var upfilebtnData = $(this).data("upfilebtnData");
+                if (_this.opts.onUploadFile) {
+                    _this.opts.onUploadFile.call(this, upfilebtnData.value, upfilebtnData.rowData, upfilebtnData.rowindex);
+                }
+            });
+        }
     };
 })(jQuery);
