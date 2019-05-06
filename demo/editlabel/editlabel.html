@@ -3,12 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <title>编辑取显示表单</title>
-    <link href="/Resource/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/Resource/EasyUI/themes/bootstrap/easyui.css" rel="stylesheet" />
-    <link href="/Resource/EasyUI/themes/icon.css" rel="stylesheet" />
-    <link href="/Content/Css/EasyUi.ex.css" rel="stylesheet" />
-    <link href="/Content/Css/style.css" rel="stylesheet" />
-    <link href="jquery.editlabel.css" rel="stylesheet" />
+    <link href="../../bootstrap3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/icon.css" rel="stylesheet" />
+    <link href="../../dist/jquery.easyuiex.min.css" rel="stylesheet" />
     <style type="text/css">
         .checkboxmagin div {
             margin-left: 20px;
@@ -118,7 +116,7 @@
                     <label class="editlabel-radio" valname="IsPass" data-options="missingMessage:'是否通过',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xs-3 text-right form-label">证明材料：</div>
                 <div class="col-xs-3 text-left form-content">
                     <div id="idFileGroupList"  class="editlabel-filegridui"
@@ -129,7 +127,7 @@
                     <div id="idFileGroupFileList" class="editlabel-filegridui"
                          data-options="textfield:'FileGroup.FileList',getVal:function(data,v){data.FileGroup={};data.FileGroup.FileList=v;},stage:2,missingMessage:'请上传申请表！',onlyOneFile:true"></div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -141,18 +139,13 @@
         </div>
     </div>
 
-    <script src="/Resource/jquery-1.11.3.min.js"></script>
-    <script src="/Resource/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/Resource/jquery.cookie.js"></script>
-    <script src="/Resource/json2.min.js"></script>
-    <script src="/Resource/EasyUI/jquery.easyui.1.5.4.5.min.js"></script>
-    <script src="/Resource/EasyUI/locale/easyui-lang-zh_CN.js"></script>
-    <script src="/Resource/easyui.extend.js"></script>
-    <script src="/Resource/JsCommon.js"></script>
-    <script src="../../../Resource/webuploader.min.js"></script>
-    <script src="/Content/Scripts/jquery.filegridui/jquery.filegridui.js"></script>
-    <script src="/Content/Scripts/jquery.validateform/jquery.validateform.js"></script>
-    <script src="jquery.editlabel.js"></script>
+    <script src="../../jquery-1.11.3.min.js"></script>
+    <script src="../../bootstrap3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../jquery.cookie.js"></script>
+    <script src="../../json2.min.js"></script>
+    <script src="../../easyui1.5.4.5/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="../../easyui1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../dist/jquery.easyuiex.min.js"></script>
     <script type="text/javascript">
 
         function AutoSelectRegistrationCity(v) {
@@ -171,36 +164,36 @@
 
         $(function () {
 
-            $.extend($.fn.filegridui.defaults, {
-                isShow: false, isLockFileDown: false, header: false, width: "100%", style: { "width": "100%" },
-                class: "cqfilegrid",
-                columns: [[{
-                    field: '_Items', title: '附件列表', width: "80%", islist: true, _items: [{
-                        field: 'FileName', formatter: function (value, rowData, rowindex, partentrow) {
-                            return $('<div><span>' + (rowindex + 1) + '、</span><a href="http://localhost:12802/FileAccess.ashx?md5=' + rowData.IDs + '&fileName=' + escape(rowData.FileName) + '" target="_blank">' + value
-                                + '</a>&nbsp;&nbsp;' + '<a class="fg-delfilebtn" style="color:red;cursor:pointer">删除</a></div>');
-                        }
-                    }], attributestr: function (value, rowData, rowindex) {
-                        return ' filegroupname="' + rowData.GroupName + '"';
-                    }
-                },
-                {
-                    field: 'sortnosdfxx', title: '上传', width: "36px", style: "text-align:right;", formatter: function (value, rowData, rowindex) {
-                        var $upfilebtn = $('<btton class="easyui-linkbutton fg-upfilebtn"  href="javascript:void(0)" style="width: 80px;">浏览</btton>');
-                        $upfilebtn.linkbutton();
-                        return $upfilebtn;
-                    }
-                }]],
-                onUploadFile: function (data) {
-                    console.info("dddd", data);
-                }, onUploadSuccess: function (file, response) {
-                    var fileItem = {};
-                    fileItem.IDs = file.md5;
-                    fileItem.FileName = file.name;
-                    fileItem.FileSize = file.size;
-                    return fileItem;
-                }, isFileGroup: false, uploaderServer: "http://localhost:12802/Service/PsFileSvr.svrx"
-            });
+            // $.extend($.fn.filegridui.defaults, {
+            //     isShow: false, isLockFileDown: false, header: false, width: "100%", style: { "width": "100%" },
+            //     class: "cqfilegrid",
+            //     columns: [[{
+            //         field: '_Items', title: '附件列表', width: "80%", islist: true, _items: [{
+            //             field: 'FileName', formatter: function (value, rowData, rowindex, partentrow) {
+            //                 return $('<div><span>' + (rowindex + 1) + '、</span><a href="http://localhost:12802/FileAccess.ashx?md5=' + rowData.IDs + '&fileName=' + escape(rowData.FileName) + '" target="_blank">' + value
+            //                     + '</a>&nbsp;&nbsp;' + '<a class="fg-delfilebtn" style="color:red;cursor:pointer">删除</a></div>');
+            //             }
+            //         }], attributestr: function (value, rowData, rowindex) {
+            //             return ' filegroupname="' + rowData.GroupName + '"';
+            //         }
+            //     },
+            //     {
+            //         field: 'sortnosdfxx', title: '上传', width: "36px", style: "text-align:right;", formatter: function (value, rowData, rowindex) {
+            //             var $upfilebtn = $('<btton class="easyui-linkbutton fg-upfilebtn"  href="javascript:void(0)" style="width: 80px;">浏览</btton>');
+            //             $upfilebtn.linkbutton();
+            //             return $upfilebtn;
+            //         }
+            //     }]],
+            //     onUploadFile: function (data) {
+            //         console.info("dddd", data);
+            //     }, onUploadSuccess: function (file, response) {
+            //         var fileItem = {};
+            //         fileItem.IDs = file.md5;
+            //         fileItem.FileName = file.name;
+            //         fileItem.FileSize = file.size;
+            //         return fileItem;
+            //     }, isFileGroup: false, uploaderServer: "http://localhost:12802/Service/PsFileSvr.svrx"
+            // });
 
             $("#company_all_submit").click(function () {
                 var formData = $('#div_center2').editlabel("getData");
