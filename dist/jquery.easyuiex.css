@@ -1,0 +1,24 @@
+.easyui-editlabel {
+    color: #000;
+}
+
+    .easyui-editlabel label {
+        font-weight: 500;
+        margin-bottom:0;
+    }
+
+    .easyui-editlabel .editlabel-input {
+        display: none;
+    }
+
+    .easyui-editlabel .editlabel-textarea {
+        display: none;
+    }
+    .easyui-editlabel .el-title .el-title-mustfill {
+        color: #f00;
+        padding: 5px;
+    }
+
+.el-inline {
+    float: left;
+}
