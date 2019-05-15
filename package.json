@@ -1,15 +1,13 @@
 {
   "name": "jquery.easyuiex",
-  "description": "eayui 表单及验证文件组组件.",
-  "version": "0.1.0",
+  "folder": "jquery-easyuiex",
+  "description": "eayui扩展 \n1、表单统计取值赋值。\n2、表单展示及编辑使用同一套组件。 \n 3、扩展了easyui-check和 easyui-radio. \n 4、验证组件 5、文件组组件.\n 6、条件显示\n 7、展开及折叠",
+  "version": "0.0.1",
   "homepage": "https://github.com/xiaoruilin/EasyUI_Plug",
   "author": "xiaoruilin",
-  "style": "dist/css/bootstrap.css",
-  "less": "less/bootstrap.less",
-  "main": "./dist/npm",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xiaoruilin/EasyUI_Plug.git"
+    "url": "git+https://github.com/xiaoruilin/EasyUI_Plug.git"
   },
   "bugs": {
     "url": "https://github.com/xiaoruilin/EasyUI_Plug/issues"
@@ -18,15 +16,6 @@
   "engines": {
     "node": ">=0.10.1"
   },
-  "files": [
-    "dist",
-    "fonts",
-    "grunt",
-    "js/*.js",
-    "less/**/*.less",
-    "Gruntfile.js",
-    "LICENSE"
-  ],
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-contrib-clean": "^2.0.0",
@@ -35,5 +24,8 @@
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-uglify": "^4.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

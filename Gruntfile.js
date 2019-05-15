@@ -5,13 +5,13 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     clean: {
       build: {
-        src: 'dest/*'
+        src: 'dest/<%= pkg.folder%>-<%=pkg.version %>/*'
       }
     },
     copy: {
       image: {
         files: [
-          {expand: true, cwd: 'src/jquery.foldpanel', src: ['images/*.{png,jpg,jpeg,gif}'], dest: 'dist/images'}
+          {expand: true, cwd: 'src/jquery.foldpanel', src: ['images/*.{png,jpg,jpeg,gif}'], dest: 'dist/<%= pkg.folder%>-<%=pkg.version %>/'}
         ]
       }
     },
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
           'src/jquery.foldpanel/jquery.foldpanel.css',
           'src/jquery.editlabel/jquery.editlabel.css'
         ],
-        dest: 'dist/<%= pkg.name %>.css'
+        dest: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.css'
       },
       //合并js
       jsConcat: {
@@ -36,28 +36,28 @@ module.exports = function (grunt) {
           'src/jquery.validateform/jquery.validateform.js',
           'src/jquery.editlabel/jquery.editlabel.js'
         ],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.js'
       }
     },
     uglify: {
       options: {
         sourceMap: true,
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.folder%>-<%=pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n/*<%=pkg.description%>*/'
       },
       build: {
-        src: 'dist/<%= pkg.name %>.js',
-        dest: 'dist/<%= pkg.name %>.min.js'
+        src: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.min.js'
       }
     },
     cssmin: {
       options: {
         sourceMap: true,
         stripBanners: true, //合并时允许输出头部信息
-        banner: '/*!<%= pkg.file %> - <%= pkg.version %>-' + '<%=grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.folder%>-<%=pkg.version %> <%=grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'dist/<%= pkg.name %>.css',//压缩
-        dest: 'dist/<%= pkg.name %>.min.css' //dest 是目的地输出
+        src: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.css',//压缩
+        dest: 'dist/<%= pkg.folder%>-<%=pkg.version %>/<%= pkg.name %>.min.css' //dest 是目的地输出
       }
     }
   });
