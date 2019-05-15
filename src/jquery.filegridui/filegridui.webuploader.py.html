@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>文件组上传</title>
+    <link href="../../bootstrap3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/icon.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div id="fg"></div>
+    <div class="FloatMenu_Bottom" style="width: 100%;">
+        <div class="btn_content_V" style="width: 100%;">
+            <a id="company_all_submit" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)"
+                style="width: 80px;">提交</a>
+            <a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal easyui-whereshowele"
+                data-options="isShow:('<%=Option %>'==1 || '<%=Option %>'==2)" href="javascript:void(0)"
+                style="width: 80px;">保存</a>
+            <a id="company_banck" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)"
+                style="width: 80px;" onclick="javascript:parent.closeTab('', true);">返回</a>
+        </div>
+    </div>
+    <script src="../../jquery-1.11.3.min.js"></script>
+    <script src="../../bootstrap3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../jquery.cookie.js"></script>
+    <script src="../../json2.min.js"></script>
+    <script src="../../easyui1.5.4.5/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="../../easyui1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="../../JsCommon.js"></script>
+    <script type="text/javascript" src="jquery.filegridui.js"></script>
+    <script src="./filegruid.webuploader.py.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var AsssFinishCols = [{
+                field: 'GroupName', title: '资料类型', width: "180px", formatter: function (value, rowData, rowindex, partentrow, partentrowindex) {
+                    if (rowData.GroupParams == 1)
+                        return '<span style="color:red">' + value + '</apan>'
+                    else
+                        return value;
+                }
+            }, {
+                field: '_Items', title: '附件列表', width: "500px", islist: true, _items: [{
+                    field: 'AttName', formatter: function (value, rowData, rowindex, partentrow) {
+                        return '<div><span>' + (rowindex + 1) + '、</span><a href="FileDownload.aspx?SouFilePath=' +
+                            rowData.SouFilePath + '&FileName=' + escape(rowData.AttName) + '" target="_blank">' + value
+                            + '</a>&nbsp;&nbsp;' + '<span style="color:gray">(' + rowData.FileSize.filesize() + ') ' +
+                            rowData.UploadTime.formatdate('yyyy-MM-dd') + '</span></div>';
+                    }
+                }], attributestr: function (value, rowData, rowindex) {
+                    return ' filegroupname="' + rowData.GroupName + '"';
+                }
+            }];
+
+            var AsssFinishCols1 = [{
+                field: '_Items', title: '附件列表', width: "500px", islist: true, _items: [{
+                    field: 'AttName', formatter: function (value, rowData, rowindex, partentrow) {
+                        return $('<div><span>' + (rowindex + 1) + '、</span><a href="FileDownload.aspx?SouFilePath=' +
+                            rowData.SouFilePath + '&FileName=' + escape(rowData.AttName) + '" target="_blank">' + value
+                            + '</a>&nbsp;&nbsp;' + '<a class="fg-delfilebtn" style="color:red;cursor:pointer">删除</a></div>');
+                    }
+                }], attributestr: function (value, rowData, rowindex) {
+                    return ' filegroupname="' + rowData.GroupName + '"';
+                }
+            },
+            {
+                field: 'sortnosdfxx', title: '上传', width: "60px", formatter: function (value, rowData, rowindex) {
+                    var $upfilebtn = $('<a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal fg-upfilebtn"  href="javascript:void(0)" style="width: 80px;">浏览</a>');
+                    return $upfilebtn;
+                }
+            }];
+
+            var AsssFinishCols2 = [{
+                field: '_Items', title: '附件列表', width: "500px", islist: true, _items: [{
+                    field: 'FileName', formatter: function (value, rowData, rowindex, partentrow) {
+                        return $('<div><span>' + (rowindex + 1) + '、</span><a href="http://192.0.0.218:4362/FileAccess.ashx?md5=' + rowData.IDs + '&fileName=' + escape(rowData.FileName) + '" target="_blank">' + value
+                            + '</a>&nbsp;&nbsp;' + '<a class="fg-delfilebtn" style="color:red;cursor:pointer">删除</a></div>');
+                    }
+                }], attributestr: function (value, rowData, rowindex) {
+                    return ' filegroupname="' + rowData.GroupName + '"';
+                }
+            },
+            {
+                field: 'sortnosdfxx', title: '上传', width: "60px", formatter: function (value, rowData, rowindex) {
+                    var $upfilebtn = $('<a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal fg-upfilebtn"  href="javascript:void(0)" style="width: 80px;">浏览</a>');
+                    return $upfilebtn;
+                }
+            }];
+
+            var opts1 = {
+                url: 'data1.json', isShow: true,
+                header: false, width: "100%", columns: [AsssFinishCols1],
+                onUploadFile: function (data) {
+                    console.info("dddd", data);
+                }, onUploadSuccess: function () {
+
+                }
+            };
+
+            var opts2 = {
+                url: 'data2.json', isShow: false, isLockFileDown: false,
+                header: false, width: "100%", columns: [AsssFinishCols2],
+                // accept: {
+                //     extensions: "zip",
+                //     mimeTypes: ".zip"
+                // },
+                onUploadFile: function (data) {
+                    console.info("dddd", data);
+                }, onUploadSuccess: function (file, response) {
+                    var fileItem = {};
+                    fileItem.IDs = file.md5;
+                    fileItem.FileName = file.name;
+                    fileItem.FileSize = file.size;
+                    return fileItem;
+                }, isFileGroup: false, uploaderServer: "http://192.0.0.218:4362/Service/PsFileSvr.svrx"
+            };
+
+            $('#fg').filegridui(opts2);
+
+            $("#company_all_submit").click(function () {
+                console.info('附列', $('#fg').filegridui('getData'));
+            });
+        });
+    </script>
+</body>
+
+</html>

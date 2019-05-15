@@ -321,7 +321,7 @@
             //绑定上传文件事件
             trtds.find(".fg-upfilebtn").each(function (i, o) {
                 var fileAccept = colOptsb.accept || _this.opts.accept || undefined;
-                _this.opts.upfilebtnfun(i, o, fileAccept, _this);
+                _this.opts.upfilebtnfun(i, o, fileAccept, _this, colOptsb);
             });
 
         });
@@ -577,96 +577,8 @@
         onUploadSuccess: function (file, response) { },//在文件上传成返回要存也的文件数据结构（可自定义） 如：{IDs:'',FileName:'',FileSize:'',UploadTime:''}
         onOneKeyDown: function () { },
         //正式使用必须重写这个方法
-        upfilebtnfun: function (i, o, fileAccept, _this) {
-            WebUploader.Uploader.register({
-                "before-send-file":"beforeSendFile",
-                "before-send": "beforeSend"
-            }, {
-                "beforeSendFile": function (file) {
-                    console.info(file);
-                    var deferred = WebUploader.Deferred();
-                    $.ajax({
-                        url: _this.opts.uploaderServer+"files",
-                        type:'POST',
-                        data: {
-                            fileName:file.name,
-                            //file:{FileName:file.name,ContentType:file.ContentType,file.},
-                            hash:'',//hex_sha1(file.name + file.size + file.ext),
-                            periodMinute:0,
-                            ownerToken:'2zDtthhs3ezecS3CGLJn4orDWdhcCAAAAAQAAAAEAAAAAXUv5uw'
-                        },
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            chunkObj = data;
-                            chunkObj.type = data.type;
-                            chunkObj.chunk == data.chunk;
-                            if (data.type == 0) {
-                                 
-                                deferred.reject();
-                                $("#" + file.id).find(".state").text("文件已上传");
-                            } else if (data.type == 1) {
-                                if (data.chunk) {
-                                    deferred.resolve();
-                                }
-                            } else {
-                                deferred.resolve();
-                            }
-                             
-                        },
-                        error: function () {
-                            deferred.resolve();
-                        }
-                    })
-                    //deferred.resolve();
-                    return deferred.promise();
-                },
-                "beforeSend": function (block) {
-                    var deferred = WebUploader.Deferred();
-                    var curChunk = block.chunk;
-                    var totalChunk = block.chunks;
-                    if (chunkObj.type == "1") {
-                        if (curChunk < chunkObj.chunk) {
-                            deferred.reject();
-                        } else {
-                            deferred.resolve();
-                        }
-                    } else {
-                        deferred.resolve();
-                    }
-                    return deferred.promise();
-                }
-            });
-
-            var $pickerwuhidden= $('<div style="display:none;"></div>').appendTo('body').end();
-            var uploader = WebUploader.create({
-                auto: true,
-                //swf: BASE_URL + '/js/Uploader.swf',
-                // 文件接收服务端。
-                server: _this.opts.uploaderServer,
-                // 选择文件的按钮。可选。
-                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-                pick: {id:$pickerwuhidden[0]},//'.pickerwebuploaderhidden',
-                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-                resize: false
-            });
-
-            $(o).click(function () {
-                var tmp = $pickerwuhidden.find(':input[type="file"]').next();
-                if (tmp.length) {
-                    tmp.click();
-                }
-                else {
-                    setTimeout(function () {
-                        pickerwuhidden.find(':input[type="file"]').next().click();
-                    }, 100);
-                }
-
-                var upfilebtnData = $(this).data("upfilebtnData");
-                if (_this.opts.onUploadFile) {
-                    _this.opts.onUploadFile.call(this, upfilebtnData.value, upfilebtnData.rowData, upfilebtnData.rowindex);
-                }
-            });
+        upfilebtnfun: function (i, o, fileAccept, _this, colOptsb) {
+            console.debug("请自已实现该方法upfilebtnfun");
         }
     };
 })(jQuery);
