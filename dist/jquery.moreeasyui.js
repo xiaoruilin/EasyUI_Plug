@@ -1846,24 +1846,25 @@ function GetFieldOpts($this) {
 /**
     * 给时间框控件扩展一个清除的按钮
     */
-$.fn.datebox.defaults.cleanText = '清空';
-(function ($) {
-    var buttons = $.extend([], $.fn.datebox.defaults.buttons);
-    buttons.splice(1, 0, {
-        text: function (target) {
-            return $(target).datebox("options").cleanText
-        },
-        handler: function (target) {
-            $(target).datebox("setValue", "");
-            $(target).datebox("hidePanel");
-        }
-    });
-    $.extend($.fn.datebox.defaults, {
-        buttons: buttons
-    });
-})(jQuery);
+// $.fn.datebox.defaults.cleanText = '清空';
+// (function ($) {
+//     var buttons = $.extend([], $.fn.datebox.defaults.buttons);
+//     console.info("buttons",$.fn.datebox.defaults.buttons);
+//     buttons.splice(1, 0, {
+//         text: function (target) {
+//             return $(target).datebox("options").cleanText
+//         },
+//         handler: function (target) {
+//             $(target).datebox("setValue", "");
+//             $(target).datebox("hidePanel");
+//         }
+//     });
+//     $.extend($.fn.datebox.defaults, {
+//         buttons: buttons
+//     });
+// })(jQuery);
 
-;(function ($) {
+; (function ($) {
     Array.prototype.GetTextById = function (id) {
         var ret = '';
         $(this).each(function (i, o) {
@@ -2131,7 +2132,7 @@ function _getEditors(jq) {
         if (!$nextm || $nextm.length < 1) {
             $nextm = $(o);
         }
-        var $m = ($nextm && $nextm.length > 0) ? $nextm:$(o);
+        var $m = ($nextm && $nextm.length > 0) ? $nextm : $(o);
         var mvalname = $m.attr("valname");
         if ($m && $m.length > 0 && ovalname === mvalname) {
             ret.push($m[0]);
@@ -2154,7 +2155,7 @@ function _getEditClass(_el, clsPrefix) {
 }
 
 //单选择及复选按钮统一调用数据
-function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,formData) {
+function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue, formData) {
     if (eleData) {
         if (fieldopt.formatval) {
             curValue = fieldopt.formatval.call(this, curValue, formData, fieldopt);
@@ -2189,7 +2190,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             $optele.val(opteleData.id);
             $optele.data("checkorradiodata", opteleData.id);
             var $opteletxt = $('<span style="padding-left:4px;padding-right:4px;margin-right:5px">' + opteleData.text + '</span>');
-            
+
             $optelespan.append($optele);
             //TODO
             //if (opteleData.onChange) {
@@ -2839,7 +2840,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             $(labelList).each(function (i, _el) {
                 $(_el).show();
                 var field_opts = GetFieldOpts($(_el));
-                $(_el).css("word-break","break-all");
+                $(_el).css("word-break", "break-all");
                 var val = field_opts.textfield.GetInstanceEx(dataBase);
 
                 var editClass = _getEditClass(_el);
@@ -2922,81 +2923,87 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             return $.data(jq[0], 'editlabel').options;
         },
         getData: function (jq) {
-            var ret = undefined;
-            var fg = $.data(jq[0], 'editlabel');
-            if (fg) {
-                if (fg.options) {
-                    //处理设置为editable=false 会产生readonly属性单独取值
-                    var alleditors = _getEditors(jq);
-                    $(alleditors).each(function (i, editor) {
-                        var $editor = $(editor);
-                        var curValue = $(editor).val();
-                        var editClass = _getEditClass(editor, "easyui-");
-                        var field_opts = GetFieldOpts($editor);
+            try {
 
-                        if ($editor.attr("readonly")) {
-                            curValue = $editor.val();
-                        }
 
-                        if ($.inArray(editClass, easyuiForms) > -1) {
-                            curValue = $(editor)[editClass]("getValue");
+                var ret = undefined;
+                var fg = $.data(jq[0], 'editlabel');
+                if (fg) {
+                    if (fg.options) {
+                        //处理设置为editable=false 会产生readonly属性单独取值
+                        var alleditors = _getEditors(jq);
+                        $(alleditors).each(function (i, editor) {
+                            var $editor = $(editor);
+                            var curValue = $(editor).val();
+                            var editClass = _getEditClass(editor, "easyui-");
+                            var field_opts = GetFieldOpts($editor);
 
-                            if ($.inArray(editClass, easyuiForms_date) > -1) {
-                                curValue = formatdate(curValue);
+                            if ($editor.attr("readonly")) {
+                                curValue = $editor.val();
                             }
-                        }
 
-                        if (editClass == "checkbox") {
-                            var curValue = field_opts.retIsArr?[]:"";
-                            var space = field_opts.space || ",";//space为分隔符如果有则使用自己定义的如:、，,
-                            var allCheckbox= $(editor).find('input:checkbox:checked');
-                            $.each(allCheckbox, function (cbi, cbo) {
-                                if (field_opts.retIsArr) {
-                                    var checkboxData = $(this).data("checkorradiodata");
-                                    curValue.push((checkboxData||$(this).val()));
-                                } else {
-                                    curValue += $(this).val() + ((allCheckbox.length == (cbi + 1)) ? "" : space);
+                            if ($.inArray(editClass, easyuiForms) > -1) {
+                                curValue = $(editor)[editClass]("getValue");
+
+                                if ($.inArray(editClass, easyuiForms_date) > -1) {
+                                    curValue = formatdate(curValue);
                                 }
-                            });
-                        }
-                        if (editClass == "radio") {
-                            curValue = $(editor).find("input[name=" + field_opts.textfield + "]:checked").val();
-                        }
-
-                        if (editClass == "numberbox" && !curValue) {
-                            curValue = 0;
-                        }
-
-                        if (editClass == "filegridui") {
-                            curValue = $(editor).filegridui("getData");
-                        }
-
-                        //如果是字符串有去掉左右空格
-                        if (typeof (curValue) == 'string') {
-                            curValue = $.trim(curValue);
-                        }
-
-                        if (field_opts && field_opts.getVal) {
-                            if (field_opts.valfield) {
-                                field_opts.getVal.call(this, fg.options.data, curValue, jq.data("valfield_" + field_opts.valfield));
-                            } else {
-                                field_opts.getVal.call(this, fg.options.data, curValue);
                             }
-                        } else if (field_opts.textfield.indexOf('.') < 0 && field_opts.textfield.indexOf('[') < 0) {
-                            fg.options.data[field_opts.textfield] = curValue;
-                            if (field_opts.valfield) {
-                                fg.options.data[field_opts.valfield] = jq.data("valfield_" + field_opts.valfield);
-                            }
-                        }
-                    });
-                    ret = fg.options.data;
 
-                    if (fg.options.onGetDataEnd) {
-                        fg.options.onGetDataEnd.call(this, ret);
+                            if (editClass == "checkbox") {
+                                var curValue = field_opts.retIsArr ? [] : "";
+                                var space = field_opts.space || ",";//space为分隔符如果有则使用自己定义的如:、，,
+                                var allCheckbox = $(editor).find('input:checkbox:checked');
+                                $.each(allCheckbox, function (cbi, cbo) {
+                                    if (field_opts.retIsArr) {
+                                        var checkboxData = $(this).data("checkorradiodata");
+                                        curValue.push((checkboxData || $(this).val()));
+                                    } else {
+                                        curValue += $(this).val() + ((allCheckbox.length == (cbi + 1)) ? "" : space);
+                                    }
+                                });
+                            }
+                            if (editClass == "radio") {
+                                curValue = $(editor).find("input[name=" + field_opts.textfield + "]:checked").val();
+                            }
+
+                            if (editClass == "numberbox" && !curValue) {
+                                curValue = 0;
+                            }
+
+                            if (editClass == "filegridui") {
+                                curValue = $(editor).filegridui("getData");
+                            }
+
+                            //如果是字符串有去掉左右空格
+                            if (typeof (curValue) == 'string') {
+                                curValue = $.trim(curValue);
+                            }
+
+                            if (field_opts && field_opts.getVal) {
+                                if (field_opts.valfield) {
+                                    field_opts.getVal.call(this, fg.options.data, curValue, jq.data("valfield_" + field_opts.valfield));
+                                } else {
+                                    field_opts.getVal.call(this, fg.options.data, curValue);
+                                }
+                            } else if (field_opts.textfield.indexOf('.') < 0 && field_opts.textfield.indexOf('[') < 0) {
+                                fg.options.data[field_opts.textfield] = curValue;
+                                if (field_opts.valfield) {
+                                    fg.options.data[field_opts.valfield] = jq.data("valfield_" + field_opts.valfield);
+                                }
+                            }
+                        });
+                        ret = fg.options.data;
+
+                        if (fg.options.onGetDataEnd) {
+                            fg.options.onGetDataEnd.call(this, ret);
+                        }
                     }
                 }
+                return ret;
+            } catch (error) {
+                console.error("editlabel getData error:",error);
             }
-            return ret;
         },
         //取得表单中所有编辑组件
         getEditors: _getEditors,
