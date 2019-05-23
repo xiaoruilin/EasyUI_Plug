@@ -2573,16 +2573,39 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 var editClass = _getEditClass(_el);
 
                 if ($.inArray(editClass, easyuiForms) > -1) {
-                    var easyuiClass = "easyui-" + editClass;
+                    var field_opts = GetFieldOpts($(_el));
+                    if(field_opts.showonly){
+                        $(_el).show();
+                        
+                        $(_el).css("word-break", "break-all");
+                        var val = field_opts.textfield.GetInstanceEx(dataBase);
+        
+                        var editClass = _getEditClass(_el);
+                        if ($.inArray(editClass, easyuiForms_date) > -1) {
+                            val = new Date(formatdate(val));
+                        }
+        
+                        if (field_opts.formatter) {
+                            var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
+                            if (typeof (ret) == "string") {
+                                $(_el).html(ret);
+                            } else {
+                                $(_el).html('');
+                                $(_el).append(ret);
+                            }
+                        }
+                        loadMustFill(_this, $(_el), field_opts);
+                    }else{
+                        var easyuiClass = "easyui-" + editClass;
 
-                    var $editele = $('<input type="text" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
-                    var fieldopt = SetAttr($(this), $editele);
-                    if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                    $(_el).hide();
-                    $(_el).after($editele);
-                    $editele[editClass](fieldopt);
-
-                    loadMustFill(_this, $editele, fieldopt);
+                        var $editele = $('<input type="text" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
+                        var fieldopt = SetAttr($(this), $editele);
+                        if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                        $(_el).hide();
+                        $(_el).after($editele);
+                        $editele[editClass](fieldopt);
+                        loadMustFill(_this, $editele, fieldopt);
+                    }
                 }
 
             });
@@ -2937,6 +2960,8 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             var curValue = $(editor).val();
                             var editClass = _getEditClass(editor, "easyui-");
                             var field_opts = GetFieldOpts($editor);
+
+                            if(field_opts.showonly) return false;
 
                             if ($editor.attr("readonly")) {
                                 curValue = $editor.val();

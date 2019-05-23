@@ -7,6 +7,7 @@
     <link href="../../easyui1.5.4.5/themes/default/easyui.css" rel="stylesheet" />
     <link href="../../easyui1.5.4.5/themes/icon.css" rel="stylesheet" />
     <link href="../../dist/jquery.moreeasyui.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
     <style type="text/css">
         .checkboxmagin div {
             margin-left: 20px;
@@ -86,7 +87,7 @@
             <div class="row">
                 <div class="col-xs-3 text-right form-label">注册时间：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-datebox" valname="RegeditTiem" data-options="required:true,missingMessage:'注册时间',novalidate:true,stage:2,
+                    <label class="editlabel-datebox" valname="RegeditTiem" data-options="showonly:true,required:true,missingMessage:'注册时间',novalidate:true,stage:2,
                            formatter:function(v,data){
                             return v.Format('yyyy-MM-dd');
                            }"></label>

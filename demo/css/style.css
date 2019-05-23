@@ -1,0 +1,9 @@
+.FloatMenu_Bottom { /*宽度可定制*/
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+    margin: 0 auto;
+    height: 40px;
+    width: 100%;
+    z-index: 1088;
+}
