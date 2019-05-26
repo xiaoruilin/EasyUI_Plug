@@ -647,7 +647,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         $(_this).find('.editlabel-filegridui').each(function () {
             if (_this.opts.validateform && _this.opts.editable) $(this).addClass('easyui-validatebox');
             var fieldopt = GetFieldOpts($(this));
-            fieldopt.isShow = !_this.opts.editable;
+            fieldopt.isShow = fieldopt.isShow || !_this.opts.editable;
             if (!fieldopt.data && !fieldopt.url && fieldopt.textfield) {
                 fieldopt.data = fieldopt.textfield.GetInstanceEx(dataBase);
             }
@@ -757,7 +757,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                         if ($.inArray(editClass, easyuiForms_date) > -1) {
                             val = new Date(formatdate(val));
                         }
-        
+                        $(_el).val(val);
                         if (field_opts.formatter) {
                             var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
                             if (typeof (ret) == "string") {
@@ -1134,7 +1134,13 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             var editClass = _getEditClass(editor, "easyui-");
                             var field_opts = GetFieldOpts($editor);
 
-                            if(field_opts.showonly) return false;
+                            if(field_opts.showonly ){
+                                if(field_opts.textfield){
+                                    curValue = field_opts.textfield.GetInstanceEx(fg.options.data);
+                                }else{
+                                    curValue = $editor.val();
+                                }
+                            }
 
                             if ($editor.attr("readonly")) {
                                 curValue = $editor.val();
@@ -1162,7 +1168,11 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                                 });
                             }
                             if (editClass == "radio") {
-                                curValue = $(editor).find("input[name=" + field_opts.textfield + "]:checked").val();
+                                var allRadio =$(editor).find('input:radio:checked');
+                                if(allRadio && allRadio.length>0){
+                                    curValue = $(allRadio[0]).val();
+                                }
+                                //curValue = $(editor).find("input[name=" + field_opts.textfield + "]:checked").val();
                             }
 
                             if (editClass == "numberbox" && !curValue) {
