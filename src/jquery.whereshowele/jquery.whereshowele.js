@@ -39,7 +39,7 @@
             }
             //如果有whereShow方法则方法事件判断
             if (opts.whereShow) {
-                if (!opts.whereShow.call(this)) {
+                if (!opts.whereShow.call(this,opts)) {
                     $(this).remove();
                 } else {
                     whereShowOrText(this, opts);

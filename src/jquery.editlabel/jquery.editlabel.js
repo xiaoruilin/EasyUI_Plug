@@ -740,49 +740,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 }
             }
 
-            //取得所有Easyui表单数据
-            var labelList = $(_this).find('[class*=editlabel-]');
-            $(labelList).each(function (i, _el) {
-                var editClass = _getEditClass(_el);
-
-                if ($.inArray(editClass, easyuiForms) > -1) {
-                    var field_opts = GetFieldOpts($(_el));
-                    if(field_opts.showonly){
-                        $(_el).show();
-                        
-                        $(_el).css("word-break", "break-all");
-                        var val = field_opts.textfield.GetInstanceEx(dataBase);
-        
-                        var editClass = _getEditClass(_el);
-                        if ($.inArray(editClass, easyuiForms_date) > -1) {
-                            val = new Date(formatdate(val));
-                        }
-                        $(_el).val(val);
-                        if (field_opts.formatter) {
-                            var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
-                            if (typeof (ret) == "string") {
-                                $(_el).html(ret);
-                            } else {
-                                $(_el).html('');
-                                $(_el).append(ret);
-                            }
-                        }
-                        loadMustFill(_this, $(_el), field_opts);
-                    }else{
-                        var easyuiClass = "easyui-" + editClass;
-
-                        var $editele = $('<input type="text" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
-                        var fieldopt = SetAttr($(this), $editele);
-                        if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                        $(_el).hide();
-                        $(_el).after($editele);
-                        $editele[editClass](fieldopt);
-                        loadMustFill(_this, $editele, fieldopt);
-                    }
-                }
-
-            });
-
             $(_this).find('.editlabel-input').each(function () {
                 var $editele = $('<input type="text" class="easyui-textbox easyui-validatebox" required style="width: 100%; margin-right: 5px; display: inline" />');
                 var fieldopt = SetAttr($(this), $editele);
@@ -874,22 +831,45 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 loadMustFill(_this, $editele, fieldopt);
             });
 
-            $(_this).find('.editlabel-select').each(function () {
+            $(_this).find('.editlabel-select').each(function (i,_el) {
 
                 var $editele = $('<select class="easyui-combobox"></select>');
                 var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                $(this).hide();
-                $(this).after($editele);
-                $editele.combobox($.extend(fieldopt, {
-                    width: (fieldopt.width ? fieldopt.width : '99.5%'),
-                    onChange: function (curValue, oldValue) {
-                        SetValue(fieldopt, curValue);
-                    },
-                    firstoption: { id: "", text: "===请选择===" }
-                }));
-                loadMustFill(_this, $editele, fieldopt);
+                if (fieldopt.showonly) {
+                    $(_el).show();
+
+                    $(_el).css("word-break", "break-all");
+                    var val = fieldopt.textfield.GetInstanceEx(dataBase);
+
+                    var editClass = _getEditClass(_el);
+                    if ($.inArray(editClass, easyuiForms_date) > -1) {
+                        val = new Date(formatdate(val));
+                    }
+                    $(_el).val(val);
+                    if (fieldopt.formatter) {
+                        var ret = fieldopt.formatter.call(this, val, dataBase, fieldopt, $(this));
+                        if (typeof (ret) == "string") {
+                            $(_el).html(ret);
+                        } else {
+                            $(_el).html('');
+                            $(_el).append(ret);
+                        }
+                    }
+                    loadMustFill(_this, $(_el), fieldopt);
+                } else {
+                    if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                    $editele.validatebox();
+                    $(this).hide();
+                    $(this).after($editele);
+                    $editele.combobox($.extend(fieldopt, {
+                        width: (fieldopt.width ? fieldopt.width : '99.5%'),
+                        onChange: function (curValue, oldValue) {
+                            SetValue(fieldopt, curValue);
+                        },
+                        firstoption: { id: "", text: "===请选择===" }
+                    }));
+                    loadMustFill(_this, $editele, fieldopt);
+                }
             });
 
             $(_this).find('.editlabel-select-native').each(function () {
@@ -912,6 +892,49 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
 
             //绑定对应的数据
             $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
+
+            //取得所有Easyui表单数据
+            var labelList = $(_this).find('[class*=editlabel-]');
+            $(labelList).each(function (i, _el) {
+                var editClass = _getEditClass(_el);
+
+                if ($.inArray(editClass, easyuiForms) > -1) {
+                    var field_opts = GetFieldOpts($(_el));
+                    if (field_opts.showonly) {
+                        $(_el).show();
+
+                        $(_el).css("word-break", "break-all");
+                        var val = field_opts.textfield.GetInstanceEx(dataBase);
+
+                        var editClass = _getEditClass(_el);
+                        if ($.inArray(editClass, easyuiForms_date) > -1) {
+                            val = new Date(formatdate(val));
+                        }
+                        $(_el).val(val);
+                        if (field_opts.formatter) {
+                            var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
+                            if (typeof (ret) == "string") {
+                                $(_el).html(ret);
+                            } else {
+                                $(_el).html('');
+                                $(_el).append(ret);
+                            }
+                        }
+                        loadMustFill(_this, $(_el), field_opts);
+                    } else {
+                        var easyuiClass = "easyui-" + editClass;
+
+                        var $editele = $('<input type="text" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
+                        var fieldopt = SetAttr($(this), $editele);
+                        if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                        $(_el).hide();
+                        $(_el).after($editele);
+                        $editele[editClass](fieldopt);
+                        loadMustFill(_this, $editele, fieldopt);
+                    }
+                }
+
+            });
 
             $(_this).find('.editlabel-checkbox').each(function () {
 
@@ -1134,10 +1157,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             var editClass = _getEditClass(editor, "easyui-");
                             var field_opts = GetFieldOpts($editor);
 
-                            if(field_opts.showonly ){
-                                if(field_opts.textfield){
+                            if (field_opts.showonly) {
+                                if (field_opts.textfield) {
                                     curValue = field_opts.textfield.GetInstanceEx(fg.options.data);
-                                }else{
+                                } else {
                                     curValue = $editor.val();
                                 }
                             }
@@ -1168,8 +1191,8 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                                 });
                             }
                             if (editClass == "radio") {
-                                var allRadio =$(editor).find('input:radio:checked');
-                                if(allRadio && allRadio.length>0){
+                                var allRadio = $(editor).find('input:radio:checked');
+                                if (allRadio && allRadio.length > 0) {
                                     curValue = $(allRadio[0]).val();
                                 }
                                 //curValue = $(editor).find("input[name=" + field_opts.textfield + "]:checked").val();
@@ -1210,7 +1233,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 }
                 return ret;
             } catch (error) {
-                console.error("editlabel getData error:",error);
+                console.error("editlabel getData error:", error);
             }
         },
         //取得表单中所有编辑组件
