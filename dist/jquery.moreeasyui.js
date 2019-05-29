@@ -1840,7 +1840,7 @@ function GetFieldOpts($this) {
     if (field_data_options) {
         field_opts = $.extend(field_opts, field_data_options.GetInstance());
     }
-    return field_opts
+    return field_opts;
 }
 
 /**
@@ -2019,36 +2019,38 @@ $.fn.bindViewValByAtr = function (data, attrName, OptArrData, OptArrName) {
         var OptArrValue = thisObj.attr(OptArrName);
         var attrValue = thisObj.attr(attrName);
         var targetVal = attrValue.GetInstanceEx(data);
-
-        if (!thisObj.is("select") && !thisObj.is(".combobox-f") && OptArrData && thisObj.attr(OptArrName)) {
-            var OptionArrList = OptArrValue.GetInstanceEx(OptArrData);
-            if (OptionArrList && OptionArrList.length > 0) {
-                targetVal = OptionArrList.GetTextById(targetVal) || targetVal;
-            }
-        }
-
-        if (targetVal != null && typeof (targetVal) != "undefined" && targetVal != "0001-1-1") {
-
-            if (thisObj.is(".combobox-f")) {
-                var cbOpt = thisObj.combobox("options");
-                thisObj.combobox(cbOpt.multiple ? "setValues" : "select", targetVal);
-            } else if (thisObj.is(".datebox-f")) {
-                if (targetVal == "1901-01-01T00:00:00" || targetVal == "0001-01-01T00:00:00") {
-                    thisObj.datebox("setValue", "");
-                } else {
-                    thisObj.datebox("setValue", targetVal);
+        var fieldopt = GetFieldOpts(thisObj);
+        if (!fieldopt.showonly) {
+            if (!thisObj.is("select") && !thisObj.is(".combobox-f") && OptArrData && thisObj.attr(OptArrName)) {
+                var OptionArrList = OptArrValue.GetInstanceEx(OptArrData);
+                if (OptionArrList && OptionArrList.length > 0) {
+                    targetVal = OptionArrList.GetTextById(targetVal) || targetVal;
                 }
-
-            } else if (thisObj.is(".textbox-f"))
-                thisObj.textbox("setValue", targetVal);
-            else if (thisObj.is("select")) {
-                thisObj.find("option:contains('" + targetVal + "')").attr("selected", true);
-                thisObj.find("option[value='" + targetVal + "']").attr("selected", true);
             }
-            else if (thisObj.is(":input"))
-                thisObj.val(targetVal);
-            else
-                thisObj.text(targetVal);
+
+            if (targetVal != null && typeof (targetVal) != "undefined" && targetVal != "0001-1-1") {
+
+                if (thisObj.is(".combobox-f")) {
+                    var cbOpt = thisObj.combobox("options");
+                    thisObj.combobox(cbOpt.multiple ? "setValues" : "select", targetVal);
+                } else if (thisObj.is(".datebox-f")) {
+                    if (targetVal == "1901-01-01T00:00:00" || targetVal == "0001-01-01T00:00:00") {
+                        thisObj.datebox("setValue", "");
+                    } else {
+                        thisObj.datebox("setValue", targetVal);
+                    }
+
+                } else if (thisObj.is(".textbox-f"))
+                    thisObj.textbox("setValue", targetVal);
+                else if (thisObj.is("select")) {
+                    thisObj.find("option:contains('" + targetVal + "')").attr("selected", true);
+                    thisObj.find("option[value='" + targetVal + "']").attr("selected", true);
+                }
+                else if (thisObj.is(":input"))
+                    thisObj.val(targetVal);
+                else
+                    thisObj.text(targetVal);
+            }
         }
     });
 }
@@ -2064,21 +2066,23 @@ $.fn.bindOptionDataByName = function (data, attrName) {
         var thisObj = $(this);
         var attrValue = thisObj.attr(attrName);
         var targetVal = attrValue.GetInstanceEx(data);
-
-        if (targetVal != null && typeof (targetVal) != "undefined" && targetVal != "0001-1-1") {
-            if (thisObj.is(".combobox-f")) {
-                var field_opts = thisObj.combobox("options");
-                if (field_opts.firstoption) {
-                    targetVal = $.merge([field_opts.firstoption], targetVal);
+        var fieldopt = GetFieldOpts(thisObj);
+        if (!fieldopt.showonly) {
+            if (targetVal != null && typeof (targetVal) != "undefined" && targetVal != "0001-1-1") {
+                if (thisObj.is(".combobox-f")) {
+                    var field_opts = thisObj.combobox("options");
+                    if (field_opts.firstoption) {
+                        targetVal = $.merge([field_opts.firstoption], targetVal);
+                    }
+                    thisObj.combobox({
+                        valueField: 'id',
+                        textField: 'text', data: targetVal
+                    });
+                } else {
+                    // $(targetVal).each(function (i, o) {
+                    //     thisObj.append('<option value="' + o.id + '">' + o.text + '</option>');
+                    // });
                 }
-                thisObj.combobox({
-                    valueField: 'id',
-                    textField: 'text', data: targetVal
-                });
-            } else {
-                $(targetVal).each(function (i, o) {
-                    thisObj.append('<option value="' + o.id + '">' + o.text + '</option>');
-                });
             }
         }
     });
@@ -2225,7 +2229,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
     }
 }
 
-//Checkbox
+//CheckboxControl
 ; (function ($) {
     function init(_this) {
         var dataBase = _this.opts.data._Items || _this.opts.data;
@@ -2329,9 +2333,9 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         }
     });
 });
-//End Checkbox
+//CheckboxControlEnd
 
-//radio
+//radioControl
 ; (function ($) {
     function init(_this) {
         var dataBase = _this.opts.data._Items || _this.opts.data;
@@ -2425,12 +2429,16 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         }
     });
 });
-//End radio
+//radioControlEnd
 
+//editlablecontrol
 ; (function ($) {
     var easyuiForms = ["textbox", "passwordbox", "maskedbox", "combo", "combobox", "combotree", "combogrid", "combotreegrid", "tagbox",
         "numberbox", "datebox", "datetimebox", "datetimespinner", "calendar", "spinner", "numberspinner", "timespinner", "slider", "filebox"];
     var easyuiForms_date = ["datebox", "datetimebox", "datetimespinner", "calendar"];
+    var easyuiForms_unvalcontrol = ["filegridui", "custom"];
+    var easyuiForms_compatible = ["input","password","select"];
+    var easyuiForms_compatible_compare = { "input": "textbox","password":"textbox","select":"combobox"};
 
     function formatdate(curValue) {
         if (curValue && curValue.indexOf(':') === -1) {
@@ -2567,59 +2575,76 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 }
             }
 
-            $(_this).find('.editlabel-input').each(function () {
-                var $editele = $('<input type="text" class="easyui-textbox easyui-validatebox" required style="width: 100%; margin-right: 5px; display: inline" />');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $(this).hide();
-                $(this).after($editele);
-                $editele.textbox(fieldopt);
-                $editele.validatebox();
-                function getinputv() {
-                    var curValue = $(this).val();
-                    SetValue(fieldopt, curValue);
+            //取得所有Easyui表单数据
+            var labelList = $(_this).find('[class*=editlabel-]');
+            $(labelList).each(function (i, _el) {
+                var editClass = _getEditClass(_el);
+                //判断是否有兼容控件
+                var hasCompatible = $.inArray(editClass, easyuiForms_compatible) > -1;
+                var input_type = null;
+                if (hasCompatible) {
+                    input_type = editClass == "password" ? editClass : null;
+                    editClass = easyuiForms_compatible_compare[editClass];
                 }
-                $("input", $editele.next("span")).keyup(getinputv);
+                if ($.inArray(editClass, easyuiForms) > -1) {
+                    var field_opts = GetFieldOpts($(_el));
+                    if (field_opts.showonly) {
+                        $(_el).show();
 
-                loadMustFill(_this, $editele, fieldopt);
-            });
+                        $(_el).css("word-break", "break-all");
+                        var val = field_opts.textfield.GetInstanceEx(dataBase);
 
-            $(_this).find('.editlabel-input-native').each(function () {
-                var $editele = $('<input type="text" class="form-control" style="width: 100%; margin-right: 5px; display: inline" />');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                $editele.bind("keyup", getEleVal);
-                $editele.bind("change", getEleVal);
+                        var editClass = _getEditClass(_el);
+                        if ($.inArray(editClass, easyuiForms_date) > -1) {
+                            val = new Date(formatdate(val));
+                        }
+                        $(_el).val(val);
+                        if (field_opts.formatter) {
+                            var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
+                            if (typeof (ret) == "string") {
+                                $(_el).html(ret);
+                            } else {
+                                $(_el).html('');
+                                $(_el).append(ret);
+                            }
+                        } else {
+                            if ($.inArray(editClass, easyuiForms_unvalcontrol) < 0) {
+                                $(_el).html(val);
+                            }
+                        }
+                        loadMustFill(_this, $(_el), field_opts);
+                    } else {
+                        var easyuiClass = "easyui-" + editClass;
+                        input_type = input_type || "text";
 
-                $(this).after($editele);
-                //$editele.bind('input propertychang', function () {
-                //    console.info("333333");
-                //});
-                loadMustFill(_this, $editele, fieldopt);
-            });
+                        var $editele = $('<input type="' + input_type + '" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
+                        if(editClass=="combobox"){
+                            $editele = $('<select class="easyui-combobox"></select>');
+                        }
+                        var fieldopt = SetAttr($(this), $editele);
+                        if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                        $(_el).hide();
+                        $(_el).after($editele);
+                        if(input_type=="password"){
+                            $.extend(fieldopt, {
+                                width: (fieldopt.width ? fieldopt.width : '99.5%')
+                            });
+                        }
 
-            $(_this).find('.editlabel-password').each(function () {
+                        if(editClass=="combobox"){
+                            $.extend(fieldopt, {
+                                width: (fieldopt.width ? fieldopt.width : '99.5%'),
+                                onChange: function (curValue, oldValue) {
+                                    SetValue(fieldopt, curValue);
+                                },
+                                firstoption: fieldopt.nofirstoption ? null : (fieldopt.firstoption || { id: "", text: "===请选择===" })
+                            });
+                        }
 
-                var $editele = $('<input type="password" class="easyui-textbox easyui-validatebox" required style="width: 100%; margin-right: 5px; display: inline" />');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                $editele.bind("keyup", getEleVal);
-                $editele.bind("change", getEleVal);
-                $(this).hide();
-                $(this).after($editele);
-                $editele.textbox(fieldopt, {
-                    width: (fieldopt.width ? fieldopt.width : '99.5%')
-                });
-                $editele.validatebox();
-                function getinputv() {
-                    var curValue = $(this).val();
-                    SetValue(fieldopt, curValue);
+                        $editele[editClass](fieldopt);
+                        loadMustFill(_this, $editele, fieldopt);
+                    }
                 }
-                $("input", $editele.next("span")).keyup(getinputv);
-
-                loadMustFill(_this, $editele, fieldopt);
             });
 
             $(_this).find('.editlabel-input-btntext').each(function () {
@@ -2658,46 +2683,50 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 loadMustFill(_this, $editele, fieldopt);
             });
 
-            $(_this).find('.editlabel-select').each(function (i,_el) {
+            // $(_this).find('.editlabel-select').each(function (i, _el) {
 
-                var $editele = $('<select class="easyui-combobox"></select>');
-                var fieldopt = SetAttr($(this), $editele);
-                if (fieldopt.showonly) {
-                    $(_el).show();
+            //     var $editele = $('<select class="easyui-combobox"></select>');
+            //     var fieldopt = SetAttr($(this), $editele);
+            //     if (fieldopt.showonly) {
+            //         $(_el).show();
 
-                    $(_el).css("word-break", "break-all");
-                    var val = fieldopt.textfield.GetInstanceEx(dataBase);
+            //         $(_el).css("word-break", "break-all");
+            //         var val = fieldopt.textfield.GetInstanceEx(dataBase);
 
-                    var editClass = _getEditClass(_el);
-                    if ($.inArray(editClass, easyuiForms_date) > -1) {
-                        val = new Date(formatdate(val));
-                    }
-                    $(_el).val(val);
-                    if (fieldopt.formatter) {
-                        var ret = fieldopt.formatter.call(this, val, dataBase, fieldopt, $(this));
-                        if (typeof (ret) == "string") {
-                            $(_el).html(ret);
-                        } else {
-                            $(_el).html('');
-                            $(_el).append(ret);
-                        }
-                    }
-                    loadMustFill(_this, $(_el), fieldopt);
-                } else {
-                    if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                    $editele.validatebox();
-                    $(this).hide();
-                    $(this).after($editele);
-                    $editele.combobox($.extend(fieldopt, {
-                        width: (fieldopt.width ? fieldopt.width : '99.5%'),
-                        onChange: function (curValue, oldValue) {
-                            SetValue(fieldopt, curValue);
-                        },
-                        firstoption: { id: "", text: "===请选择===" }
-                    }));
-                    loadMustFill(_this, $editele, fieldopt);
-                }
-            });
+            //         var editClass = _getEditClass(_el);
+            //         if ($.inArray(editClass, easyuiForms_date) > -1) {
+            //             val = new Date(formatdate(val));
+            //         }
+            //         $(_el).val(val);
+            //         if (fieldopt.formatter) {
+            //             var ret = fieldopt.formatter.call(this, val, dataBase, fieldopt, $(this));
+            //             if (typeof (ret) == "string") {
+            //                 $(_el).html(ret);
+            //             } else {
+            //                 $(_el).html('');
+            //                 $(_el).append(ret);
+            //             }
+            //         } else {
+            //             if ($.inArray(editClass, easyuiForms_unvalcontrol) < 0) {
+            //                 $(_el).html(val);
+            //             }
+            //         }
+            //         loadMustFill(_this, $(_el), fieldopt);
+            //     } else {
+            //         if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+            //         $editele.validatebox();
+            //         $(this).hide();
+            //         $(this).after($editele);
+            //         $editele.combobox($.extend(fieldopt, {
+            //             width: (fieldopt.width ? fieldopt.width : '99.5%'),
+            //             onChange: function (curValue, oldValue) {
+            //                 SetValue(fieldopt, curValue);
+            //             },
+            //             firstoption: fieldopt.nofirstoption ? null : (fieldopt.firstoption || { id: "", text: "===请选择===" })
+            //         }));
+            //         loadMustFill(_this, $editele, fieldopt);
+            //     }
+            // });
 
             $(_this).find('.editlabel-select-native').each(function () {
 
@@ -2719,49 +2748,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
 
             //绑定对应的数据
             $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
-
-            //取得所有Easyui表单数据
-            var labelList = $(_this).find('[class*=editlabel-]');
-            $(labelList).each(function (i, _el) {
-                var editClass = _getEditClass(_el);
-
-                if ($.inArray(editClass, easyuiForms) > -1) {
-                    var field_opts = GetFieldOpts($(_el));
-                    if (field_opts.showonly) {
-                        $(_el).show();
-
-                        $(_el).css("word-break", "break-all");
-                        var val = field_opts.textfield.GetInstanceEx(dataBase);
-
-                        var editClass = _getEditClass(_el);
-                        if ($.inArray(editClass, easyuiForms_date) > -1) {
-                            val = new Date(formatdate(val));
-                        }
-                        $(_el).val(val);
-                        if (field_opts.formatter) {
-                            var ret = field_opts.formatter.call(this, val, dataBase, field_opts, $(this));
-                            if (typeof (ret) == "string") {
-                                $(_el).html(ret);
-                            } else {
-                                $(_el).html('');
-                                $(_el).append(ret);
-                            }
-                        }
-                        loadMustFill(_this, $(_el), field_opts);
-                    } else {
-                        var easyuiClass = "easyui-" + editClass;
-
-                        var $editele = $('<input type="text" class="' + easyuiClass + '" required style="width: 100%; margin-right: 5px; display: inline" />');
-                        var fieldopt = SetAttr($(this), $editele);
-                        if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                        $(_el).hide();
-                        $(_el).after($editele);
-                        $editele[editClass](fieldopt);
-                        loadMustFill(_this, $editele, fieldopt);
-                    }
-                }
-
-            });
 
             $(_this).find('.editlabel-checkbox').each(function () {
 
@@ -2901,6 +2887,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                     } else {
                         $(_el).html('');
                         $(_el).append(ret);
+                    }
+                } else {
+                    if ($.inArray(editClass, easyuiForms_unvalcontrol) < 0) {
+                        $(_el).html(val);
                     }
                 }
                 loadMustFill(_this, $(_el), field_opts);
@@ -3164,6 +3154,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         isMustFillStyle: false,//显示必选择项开关
         mustFillEle: '<span class="el-title-mustfill">*</span>',//必须元素
         mustFillClass: null,
+        mustFillLabel: null,
         mustFillSelector: function () { return $(this).parent().prev(); },
         onLoadSuccess: function (data, _this, editable) { },//可在此事件写入第三方插件的初始
         onGetDataEnd: function (data) { }//可在此事件写入第三方插件的取数据
