@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>编辑取显示表单</title>
@@ -7,43 +8,39 @@
     <link href="../../easyui1.5.4.5/themes/bootstrap/easyui.css" rel="stylesheet" />
     <link href="../../easyui1.5.4.5/themes/icon.css" rel="stylesheet" />
     <link href="jquery.editlabel.css" rel="stylesheet" />
-    <style type="text/css">
-        .checkboxmagin div {
-            margin-left: 20px;
-            margin-right: 20px;
-            width: 80px;
-        }
-    </style>
 </head>
+
 <body>
     <div id="div_center2" class="easyui-editlabel easyui-validateform">
         <div class="container-fluid form-container">
             <div class="row">
                 <div class="col-xs-3 text-right form-label">登录名：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-input" valname="UniqID" data-options="required:true,validType:['LoginID'],novalidate:true,stage:1,disabled:true"></label>
+                    <label class="editlabel-input" valname="UniqID"
+                        data-options="required:true,validType:['LoginID'],novalidate:true,stage:1,disabled:true"></label>
                 </div>
                 <div class="col-xs-6 text-left form-content"><span style="color:red;">*</span>登录名为6~18位数字或字母组合</div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">密码：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-password" valname="Password" data-options="required:true,validType:['password1'],novalidate:true,stage:3,editorid:'Password_editor'"></label>
+                    <label class="editlabel-password" valname="Password"
+                        data-options="required:true,validType:['password1'],novalidate:true,stage:3,editorid:'Password_editor'"></label>
                 </div>
                 <div class="col-xs-6 text-left form-content"><span style="color:red;">*</span>密码为4~16位数字或字母组合</div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">确认密码：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-password" valname="ConfirmPassword" data-options="required:true,validType:['password1','same[\'#Password_editor\']'],novalidate:true,stage:3,editorid:'ConfirmPassword_editor'"></label>
+                    <label class="editlabel-password" valname="ConfirmPassword"
+                        data-options="required:true,validType:['password1','same[\'#Password_editor\']'],novalidate:true,stage:3,editorid:'ConfirmPassword_editor'"></label>
                 </div>
                 <div class="col-xs-6 text-left form-content"><span style="color:red;">*</span>确认密码与上面密码一致才能通过</div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">企业：</div>
                 <div class="col-xs-8 text-left form-content">
-                    <label class="editlabel-input-btntext" valname="CompanyName"
-                           data-options="required:true,missingMessage:'请选择企业或填写企业名称',novalidate:true,stage:1,
+                    <label class="editlabel-input-btntext" valname="CompanyName" data-options="required:true,missingMessage:'请选择企业或填写企业名称',novalidate:true,stage:1,
                              buttonText:'选择',prompt: '请选择企业或填写企业名称',
                              onClickButton:function(){showSelectcompanyWindow();},valfield:'CompanyGuid'"></label>
                 </div>
@@ -51,36 +48,41 @@
             <div class="row">
                 <div class="col-xs-3 text-right form-label">统一社会信用代码：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-input" valname="UnifiedSocialCreditCode" data-options="required:true,missingMessage:'请输入统一社会信用代码',novalidate:true,stage:2"></label>
+                    <label class="editlabel-input" valname="UnifiedSocialCreditCode"
+                        data-options="required:true,missingMessage:'请输入统一社会信用代码',novalidate:true,stage:2"></label>
                 </div>
                 <div class="col-xs-2 text-right form-label">企业编码：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-input" valname="CompanyCode" data-options="required:true,missingMessage:'请输入企业编码',novalidate:true,stage:2"></label>
+                    <label class="editlabel-input" valname="CompanyCode"
+                        data-options="required:true,missingMessage:'请输入企业编码',novalidate:true,stage:2"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">所在省（市）：</div>
                 <div class="col-xs-3 text-left form-content">
                     <label class="editlabel-select" valname="RegistrationProvince" optionsdata="RegistrationProvince"
-                           data-opts="getVal:function(data,v){data.RegistrationProvince=v;AutoSelectRegistrationCity(v);}"
-                           data-options="validType:'choice',missingMessage:'请选择所在省（市）',novalidate:true,stage:2,onChange:function(v){
+                        data-opts="getVal:function(data,v){data.RegistrationProvince=v;AutoSelectRegistrationCity(v);}"
+                        data-options="validType:'choice',missingMessage:'请选择所在省（市）',novalidate:true,stage:2,onChange:function(v){
                              AutoSelectRegistrationCity(v);
                              }"></label>
                 </div>
                 <div class="col-xs-2 text-right form-label">所在市县：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-select" valname="RegistrationCity" optionsdata="RegistrationCity" data-opts="getVal:function(data,v){data.RegistrationCity=v;}"
-                           data-options="validType:'choice',missingMessage:'请选择所在市县',novalidate:true,stage:2"></label>
+                    <label class="editlabel-select" valname="RegistrationCity" optionsdata="RegistrationCity"
+                        data-opts="getVal:function(data,v){data.RegistrationCity=v;}"
+                        data-options="validType:'choice',missingMessage:'请选择所在市县',novalidate:true,stage:2"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">面积：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-numberbox" valname="MianJi" data-options="required:true,validType:'gtzero',missingMessage:'面积',novalidate:true,stage:2,precision: 4"></label>
+                    <label class="editlabel-numberbox" valname="MianJi"
+                        data-options="required:true,validType:'gtzero',missingMessage:'面积',novalidate:true,stage:2,precision: 4"></label>
                 </div>
                 <div class="col-xs-2 text-right form-label">联系电话：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-input" valname="LinkMobile" data-options="required:true,missingMessage:'请填写联系电话',validType:['telNumber'],novalidate:true,stage:2"></label>
+                    <label class="editlabel-input" valname="LinkMobile"
+                        data-options="required:true,missingMessage:'请填写联系电话',validType:['telNumber'],novalidate:true,stage:2"></label>
                 </div>
             </div>
             <div class="row">
@@ -93,14 +95,14 @@
                 </div>
                 <div class="col-xs-2 text-right form-label">银行卡号：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-maskedbox" valname="BankCradNum" data-options="missingMessage:'银行卡号',mask: '9999 9999 9999 9999',novalidate:true,stage:2"></label>
+                    <label class="editlabel-maskedbox" valname="BankCradNum"
+                        data-options="missingMessage:'银行卡号',mask: '9999 9999 9999 9999',novalidate:true,stage:2"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">是否股东：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-checkbox" valname="IsPartner" 
-                           data-options="novalidate:true,stage:5,data:[{id:true ,text:'是',onChange:IsPartnerChange}],retIsArr:true,getVal:function(data,v){
+                    <label class="editlabel-checkbox" valname="IsPartner" data-options="novalidate:true,stage:5,data:[{id:true ,text:'是',onChange:IsPartnerChange}],retIsArr:true,getVal:function(data,v){
                            data.IsPartner=(v[0]);
                            }"></label>
                 </div>
@@ -108,24 +110,28 @@
             <div class="row">
                 <div class="col-xs-3 text-right form-label">爱好：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-checkbox" valname="Hobby" data-options="required:true,retIsArr:true,missingMessage:'注册时间',novalidate:true,stage:2,class:'checkboxmagin',space:'、',
+                    <label class="editlabel-checkbox" valname="Hobby"
+                        data-options="required:true,retIsArr:true,missingMessage:'注册时间',novalidate:true,stage:2,class:'checkboxmagin',space:'、',
                            data:[{id:'蓝球',text:'蓝球',disabled:true},{id:'足球',text:'足球'},{id:'排球',text:'排球'},{id:'乒乓球',text:'乒乓球'},{id:'棒球',text:'棒球'}],horizontal:true"></label>
                 </div>
                 <div class="col-xs-2 text-right form-label">是否通过：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-radio" valname="IsPass" data-options="missingMessage:'是否通过',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
+                    <label class="editlabel-radio" valname="IsPass"
+                        data-options="missingMessage:'是否通过',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-3 text-right form-label">证明材料：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <div id="idFileGroupList"  class="editlabel-filegridui"
-                         data-options="textfield:'FileGroupList',accept: {title:'请上传zip文件！',extensions: 'zip',mimeTypes: '.zip'},required:true,getVal:function(data,v){data.FileGroupList=v;},stage:2,missingMessage:'请上传证明材料！'"></div>
+                    <div id="idFileGroupList" class="editlabel-filegridui"
+                        data-options="textfield:'FileGroupList',accept: {title:'请上传zip文件！',extensions: 'zip',mimeTypes: '.zip'},required:true,getVal:function(data,v){data.FileGroupList=v;},stage:2,missingMessage:'请上传证明材料！'">
+                    </div>
                 </div>
                 <div class="col-xs-2 text-right form-label">申请表：</div>
                 <div class="col-xs-3 text-left form-content">
                     <div id="idFileGroupFileList" class="editlabel-filegridui"
-                         data-options="textfield:'FileGroup.FileList',getVal:function(data,v){data.FileGroup={};data.FileGroup.FileList=v;},stage:2,missingMessage:'请上传申请表！',onlyOneFile:true"></div>
+                        data-options="textfield:'FileGroup.FileList',getVal:function(data,v){data.FileGroup={};data.FileGroup.FileList=v;},stage:2,missingMessage:'请上传申请表！',onlyOneFile:true">
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,9 +139,13 @@
 
     <div class="FloatMenu_Bottom" style="width: 100%;">
         <div class="btn_content_V" style="width: 100%;">
-            <a id="company_all_submit" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)" style="width: 80px;">提交</a>
-            <a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal easyui-whereshowele" data-options="isShow:('<%=Option %>'==1 || '<%=Option %>'==2)" href="javascript:void(0)" style="width: 80px;">保存</a>
-            <a id="company_banck" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)" style="width: 80px;" onclick="javascript:parent.closeTab('', true);">返回</a>
+            <a id="company_all_submit" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)"
+                style="width: 80px;">提交</a>
+            <a id="company_all_save" class="easyui-linkbutton l-btn l-bin-normal easyui-whereshowele"
+                data-options="isShow:('<%=Option %>'==1 || '<%=Option %>'==2)" href="javascript:void(0)"
+                style="width: 80px;">保存</a>
+            <a id="company_banck" class="easyui-linkbutton l-btn l-bin-normal" href="javascript:void(0)"
+                style="width: 80px;" onclick="javascript:parent.closeTab('', true);">返回</a>
         </div>
     </div>
 
@@ -150,6 +160,7 @@
     <script src="jquery.editlabel.js"></script>
     <script type="text/javascript">
 
+        
         function AutoSelectRegistrationCity(v) {
             console.info("设置值！", v);
         }
@@ -210,7 +221,7 @@
             //初始化表单
             $('#div_center2').editlabel({
                 data: {
-                    UniqID: "Admin", RegeditTiem: "2019-01-01T00:00:00", LinkMan: "联系人甲", MianJi:'',
+                    UniqID: "Admin", RegeditTiem: "2019-01-01T00:00:00", LinkMan: "联系人甲", MianJi: '',
                     BankCradNum: "5103 2432 3232 1123", Hobby: "蓝球,排球,", FileGroupList: {
                         "_Items": [
                             {
@@ -239,7 +250,7 @@
             $($IsPartnerCheckbox).find("input").click(function () {
                 var curV = $(this).is(':checked');
                 if (curV) {
-                    $('#div_center2').editlabel("removeMustfill", { editorfield: "Hobby"});
+                    $('#div_center2').editlabel("removeMustfill", { editorfield: "Hobby" });
                     $('#div_center2').editlabel("removeMustfill", { editorfield: "FileGroup.FileList", stage: 5 });
                 } else {
                     $('#div_center2').editlabel("appendMustfill", { editorfield: "Hobby" });
@@ -251,4 +262,5 @@
     </script>
 
 </body>
+
 </html>

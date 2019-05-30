@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>编辑取显示表单</title>
+    <link href="../../bootstrap3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="../../easyui1.5.4.5/themes/icon.css" rel="stylesheet" />
+    <link href="../../dist/jquery.moreeasyui.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <table id="main_table" class="easyui-datagrid" data-options="pagination:true,toolbar:'#dvListTools'"></table>
+    <script src="../../jquery-1.11.3.min.js"></script>
+    <script src="../../bootstrap3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../jquery.cookie.js"></script>
+    <script src="../../json2.min.js"></script>
+    <script src="../../easyui1.5.4.5/jquery.easyui.1.5.4.5.min.js"></script>
+    <script src="../../easyui1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../webuploader-0.1.6/webuploader.min.js"></script>
+    <script src="../../JsCommon.js"></script>
+    <script src="../../dist/jquery.moreeasyui.min.js"></script>
+    <script src="../../dist/filegruid.webuploader.py.js"></script>
+    <script type="text/javascript">
+        //取得选择信息（为父页面提供取值方法）
+        function GetCompanyInfo() {
+            //取得第一行选择的数据
+            var ret = $("#main_table").datagrid("getSelected");
+            console.info("GetCompanyInfo", ret);
+            return ret;
+        }
+        
+        $("#main_table").datagrid({
+            checkbox: true,
+            ctrlSelect: true,
+            selectOnCheck: true,
+            pagination: true,
+            rownumbers: false,
+            nowrap: false,
+            singleSelect: true,
+            fit: true, border: false,
+            fitColumns: true,
+            data: [{"Guid":"89A15608-A815-4E5A-BEEF-AA12E21A04F9", "CompanyCode": "A01", "CompanyName": "测试企业名称1" }, 
+            {"Guid":"32B632A0-C6F8-464F-9B69-59E318AC665F","CompanyCode": "A02", "CompanyName": "测试企业名称2" }],
+            columns: [[
+                { field: 'CompanyCode', title: '企业编码', width: 100, align: 'center' },
+                {
+                    field: 'CompanyName', title: '企业名称', width: 200, align: 'left', formatter: function (value, row, index) { if (Option == 1) return value; else return '<a class="" style="cursor:pointer;color:blue;" onclick="showEntCompanyDetail(\'' + row.Guid + '\')";>' + value + '</a>' }
+                }
+            ]]
+        });
+    </script>
+</body>
+
+</html>
