@@ -155,6 +155,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                    <div class="col-xs-3 text-right form-label">备注：</div>
+                    <div class="col-xs-3 text-left form-content">
+                        <label class="editlabel-textbox" valname="Remarks"
+                            data-options="required:false,missingMessage:'请输入备注!',multiline:true,height:'90px',novalidate:true,stage:2"></label>
+                    </div>
+                    <div class="col-xs-2 text-right form-label">备注：</div>
+                    <div class="col-xs-3 text-left form-content">
+                        <label class="editlabel-textarea" valname="Remarks1"
+                            data-options="required:false,missingMessage:'请输入备注1!',novalidate:true,stage:2"></label>
+                    </div>
+                </div>
         </div>
     </div>
 
@@ -210,6 +222,7 @@
                     }, { text: '取消', handler: function () { wndObj.dialog('destroy'); } }]
                 }, wndOpt));
             };
+
         })(jQuery);
 
 

@@ -610,8 +610,8 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         "numberbox", "datebox", "datetimebox", "datetimespinner", "calendar", "spinner", "numberspinner", "timespinner", "slider", "filebox"];
     var easyuiForms_date = ["datebox", "datetimebox", "datetimespinner", "calendar"];
     var easyuiForms_unvalcontrol = ["filegridui", "custom"];
-    var easyuiForms_compatible = ["input", "input-btntext", "password", "select"];
-    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "password": "textbox", "select": "combobox" };
+    var easyuiForms_compatible = ["input", "input-btntext","textarea", "password", "select"];
+    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "textarea":"textbox","password": "textbox", "select": "combobox" };
 
     function formatdate(curValue) {
         if (curValue && curValue.indexOf(':') === -1) {
@@ -818,6 +818,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             }
 
                         }
+                        if(oldeditClass=="textarea"){
+                            $.extend(fieldopt, { multiline: true });
+                        }
+
                         //单独为textbox存valfield
                         if (fieldopt.valfield) {
                             _this.data("valfield_" + fieldopt.valfield, fieldopt.valfield.GetInstanceEx(dataBase));
@@ -826,35 +830,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                         loadMustFill(_this, $editele, fieldopt);
                     }
                 }
-            });
-
-            // $(_this).find('.editlabel-input-btntext').each(function () {
-            //     var $editele = $('<input type="text" class="easyui-textbox" required style="width: 100%; margin-right: 5px; display: inline" />');
-            //     var fieldopt = SetAttr($(this), $editele);
-            //     if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-            //     //验证框为影响readonly效果
-            //     $editele.validatebox({ editable: true });
-            //     $editele.bind("keyup", getEleVal);
-            //     $editele.bind("change", getEleVal);
-            //     $(this).hide();
-            //     $(this).after($editele);
-
-            //     //单独为textbox存valfield
-            //     if (fieldopt.valfield) {
-            //         _this.data("valfield_" + fieldopt.valfield, fieldopt.valfield.GetInstanceEx(dataBase));
-            //     }
-            //     loadMustFill(_this, $editele, fieldopt);
-            // });
-
-            $(_this).find('.editlabel-textarea').each(function () {
-                var $editele = $('<textarea class="form-control" style="width: 100%; height: 60px"></textarea>');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                $editele.bind("keyup", getEleVal);
-                $editele.bind("change", getEleVal);
-                $(this).after($editele);
-                loadMustFill(_this, $editele, fieldopt);
             });
 
             //optionsdatasou如果有下拉框数据源就绑定
