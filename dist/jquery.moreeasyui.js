@@ -2079,9 +2079,9 @@ $.fn.bindOptionDataByName = function (data, attrName) {
                         textField: 'text', data: targetVal
                     });
                 } else {
-                    // $(targetVal).each(function (i, o) {
-                    //     thisObj.append('<option value="' + o.id + '">' + o.text + '</option>');
-                    // });
+                    $(targetVal).each(function (i, o) {
+                        thisObj.append('<option value="' + o.id + '">' + o.text + '</option>');
+                    });
                 }
             }
         }
@@ -2639,6 +2639,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                                 },
                                 firstoption: fieldopt.nofirstoption ? null : (fieldopt.firstoption || { id: "", text: "===请选择===" })
                             });
+                            if (field_opts.formatter) {
+                                $.extend(fieldopt, {formatter:null});
+                            }
+
                         }
 
                         $editele[editClass](fieldopt);

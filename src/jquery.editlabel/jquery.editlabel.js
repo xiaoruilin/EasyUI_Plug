@@ -812,6 +812,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                                 },
                                 firstoption: fieldopt.nofirstoption ? null : (fieldopt.firstoption || { id: "", text: "===请选择===" })
                             });
+                            if (field_opts.formatter) {
+                                $.extend(fieldopt, {formatter:null});
+                            }
+
                         }
 
                         $editele[editClass](fieldopt);
