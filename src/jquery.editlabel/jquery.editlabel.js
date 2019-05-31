@@ -558,8 +558,13 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             return $.data(jq[0], 'radio').options;
         },
         getValue: function (jq) {
-            var opts = $.data(jq[0], 'checkbox').options;
-            var curValue = $(editor).find("input[name=" + opts.textfield + "]:checked").val();
+            var opts = $.data(jq[0], 'radio').options;
+            var curValue = null;
+            var allRadio = $(jq[0]).find('input:radio:checked');
+                if (allRadio && allRadio.length > 0) {
+                    curValue = $(allRadio[0]).val();
+                }
+            //var curValue = $(jq[0]).find("input[name=" + opts.textfield + "]:checked").val();
             return curValue;
         },
         reload: function (jq, param) {//TODO，处理不同选择器绑定了两上单击事件
@@ -604,14 +609,14 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
 });
 //radioControlEnd
 
-//editlablecontrol
+//editlabelcontrol
 ; (function ($) {
     var easyuiForms = ["textbox", "passwordbox", "maskedbox", "combo", "combobox", "combotree", "combogrid", "combotreegrid", "tagbox",
-        "numberbox", "datebox", "datetimebox", "datetimespinner", "calendar", "spinner", "numberspinner", "timespinner", "slider", "filebox"];
+        "numberbox", "datebox", "datetimebox", "datetimespinner", "calendar", "spinner", "numberspinner", "timespinner", "slider", "filebox","checkbox","radio"];
     var easyuiForms_date = ["datebox", "datetimebox", "datetimespinner", "calendar"];
     var easyuiForms_unvalcontrol = ["filegridui", "custom"];
-    var easyuiForms_compatible = ["input", "input-btntext","textarea", "password", "select"];
-    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "textarea":"textbox","password": "textbox", "select": "combobox" };
+    var easyuiForms_compatible = ["input", "input-btntext", "textarea", "password", "select"];
+    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "textarea": "textbox", "password": "textbox", "select": "combobox" };
 
     function formatdate(curValue) {
         if (curValue && curValue.indexOf(':') === -1) {
@@ -795,8 +800,28 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                         if (editClass == "combobox") {
                             $editele = $('<select class="easyui-combobox"></select>');
                         }
+                        if (editClass == "checkbox" || editClass == "radio") {
+                            $editele = $('<div class="' + easyuiClass + '" ></div>');
+                        }
+
                         var fieldopt = SetAttr($(this), $editele);
                         if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                        if (editClass == "checkbox" || editClass == "radio") {
+                            $editele.validatebox();
+                            var eleData = fieldopt.data;
+                            if (!fieldopt.data && _this.opts.optionsdatasou) {
+                                if (fieldopt.optionsdata) {
+                                    eleData = fieldopt.optionsdata.GetInstanceEx(_this.opts.optionsdatasou);
+                                }
+                            }
+                            var curValue = null;
+                            if (fieldopt.textfield) {
+                                curValue = fieldopt.textfield.GetInstanceEx(dataBase);
+                            }
+
+                            //appendCheckboxOrRadio($editele, editClass, fieldopt, eleData, curValue, dataBase);
+                        }
+
                         $(_el).hide();
                         $(_el).after($editele);
                         if (input_type == "password") {
@@ -818,7 +843,7 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             }
 
                         }
-                        if(oldeditClass=="textarea"){
+                        if (oldeditClass == "textarea") {
                             $.extend(fieldopt, { multiline: true });
                         }
 
@@ -840,57 +865,55 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             //绑定对应的数据
             $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
 
-            $(_this).find('.editlabel-checkbox').each(function () {
+            // $(_this).find('.editlabel-checkbox').each(function () {
 
-                var $editele = $('<div class="easyui-checkbox"></div>');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                var eleData = fieldopt.data;
-                if (!fieldopt.data && _this.opts.optionsdatasou) {
-                    if (fieldopt.optionsdata) {
-                        eleData = fieldopt.optionsdata.GetInstanceEx(_this.opts.optionsdatasou);
-                    }
-                }
+            //     var $editele = $('<div class="easyui-checkbox"></div>');
+            //     var fieldopt = SetAttr($(this), $editele);
+            //     if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+            //     $editele.validatebox();
+            //     var eleData = fieldopt.data;
+            //     if (!fieldopt.data && _this.opts.optionsdatasou) {
+            //         if (fieldopt.optionsdata) {
+            //             eleData = fieldopt.optionsdata.GetInstanceEx(_this.opts.optionsdatasou);
+            //         }
+            //     }
 
-                var curValue = null;
-                if (fieldopt.textfield) {
-                    curValue = fieldopt.textfield.GetInstanceEx(dataBase);
-                }
+            //     var curValue = null;
+            //     if (fieldopt.textfield) {
+            //         curValue = fieldopt.textfield.GetInstanceEx(dataBase);
+            //     }
 
-                appendCheckboxOrRadio($editele, "checkbox", fieldopt, eleData, curValue, dataBase);
+            //     appendCheckboxOrRadio($editele, "checkbox", fieldopt, eleData, curValue, dataBase);
 
-                $(this).hide();
-                $(this).after($editele);
-                loadMustFill(_this, $editele, fieldopt);
-            });
+            //     $(this).hide();
+            //     $(this).after($editele);
+            //     loadMustFill(_this, $editele, fieldopt);
+            // });
 
-            $(_this).find('.editlabel-radio').each(function () {
+            // $(_this).find('.editlabel-radio').each(function () {
 
-                var $editele = $('<div class="easyui-radio"></div>');
-                var fieldopt = SetAttr($(this), $editele);
-                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
-                $editele.validatebox();
-                var eleData = fieldopt.data;
-                if (!fieldopt.data && _this.opts.optionsdatasou) {
-                    if (fieldopt.optionsdata) {
-                        eleData = fieldopt.optionsdata.GetInstanceEx(_this.opts.optionsdatasou);
-                    }
-                }
+            //     var $editele = $('<div class="easyui-radio"></div>');
+            //     var fieldopt = SetAttr($(this), $editele);
+            //     if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+            //     $editele.validatebox();
+            //     var eleData = fieldopt.data;
+            //     if (!fieldopt.data && _this.opts.optionsdatasou) {
+            //         if (fieldopt.optionsdata) {
+            //             eleData = fieldopt.optionsdata.GetInstanceEx(_this.opts.optionsdatasou);
+            //         }
+            //     }
 
-                var curValue = null;
-                if (fieldopt.textfield) {
-                    curValue = fieldopt.textfield.GetInstanceEx(dataBase);
-                }
+            //     var curValue = null;
+            //     if (fieldopt.textfield) {
+            //         curValue = fieldopt.textfield.GetInstanceEx(dataBase);
+            //     }
 
-                appendCheckboxOrRadio($editele, "radio", fieldopt, eleData, curValue, dataBase);
+            //     appendCheckboxOrRadio($editele, "radio", fieldopt, eleData, curValue, dataBase);
 
-                //$editele.bind("keyup", getEleVal);
-                //$editele.bind("change", getEleVal);
-                $(this).hide();
-                $(this).after($editele);
-                loadMustFill(_this, $editele, fieldopt);
-            });
+            //     $(this).hide();
+            //     $(this).after($editele);
+            //     loadMustFill(_this, $editele, fieldopt);
+            // });
 
             $(_this).find('.editlabel-custom').each(function () {
                 var valname = $(this).attr('valname');
