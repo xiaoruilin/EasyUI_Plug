@@ -1263,7 +1263,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         editable: false,//editable: true,表示编制状态，editable: false表示查看状态
         editablecol: null,
         validateform: true,//表单中是否有验证项
-        OpState: null,
         optionsdatasou: null, //表单的下拉框整体数据源
         isMustFillStyle: false,//显示必选择项开关
         mustFillEle: '<span class="el-title-mustfill">*</span>',//必须元素
