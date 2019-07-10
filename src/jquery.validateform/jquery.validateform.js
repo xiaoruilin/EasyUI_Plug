@@ -91,7 +91,7 @@
                             }
                         }
                     } else {
-                        if ($this.is(":hidden") && !_hasEasyuiClass($this) && !opts.isHiddenValid) {
+                        if (vbopts.isHiddenValid===false || ($this.is(":hidden") && !_hasEasyuiClass($this) && !opts.isHiddenValid)) {
                             isValid = true;
                             return isValid;
                         }
@@ -118,7 +118,7 @@
                             }
                         }
 
-                        if ($this.hasClass('easyui-combobox')) {
+                        if ($this.hasClass('easyui-combobox') || $this.hasClass('easyui-combotree')) {
                             var $thisval = $this.next().find('.textbox-value').each(function () { $dateboxval = $this; });
                             var thisval= $thisval.val();
 
@@ -137,6 +137,10 @@
                                 }
                             } else {
                                 $this.validatebox('disableValidation');
+                            }
+
+                            if($this.hasClass('easyui-combotree')){
+                                return isValid;
                             }
                         }
 
