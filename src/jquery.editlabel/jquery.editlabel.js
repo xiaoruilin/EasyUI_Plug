@@ -203,7 +203,11 @@ $.fn.bindViewValByAtr = function (data, attrName, OptArrData, OptArrName) {
 
             if (targetVal != null && typeof (targetVal) != "undefined" && targetVal != "0001-1-1") {
 
-                if (thisObj.is(".combobox-f")) {
+                
+                if (thisObj.is(".combotree-f")) {
+                    var cbOpt = thisObj.combotree("options");
+                    thisObj.combotree(cbOpt.multiple ? "setValues" : "setValue", targetVal);
+                }else if (thisObj.is(".combobox-f")) {
                     var cbOpt = thisObj.combobox("options");
                     thisObj.combobox(cbOpt.multiple ? "setValues" : "select", targetVal);
                 } else if (thisObj.is(".datebox-f")) {
