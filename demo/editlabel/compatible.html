@@ -131,14 +131,14 @@
             <div class="row">
                 <div class="col-xs-3 text-right form-label">爱好：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-checkbox" valname="Hobby"
-                        data-options="required:true,retIsArr:true,missingMessage:'注册时间',novalidate:true,stage:2,class:'checkboxmagin',space:'、',
+                    <label class="editlabel-checkbox"
+                        data-options="required:true,valname:'Hobby',retIsArr:true,missingMessage:'注册时间',novalidate:true,stage:2,class:'checkboxmagin',space:'、',
                            data:[{id:'蓝球',text:'蓝球',disabled:true},{id:'足球',text:'足球'},{id:'排球',text:'排球'},{id:'乒乓球',text:'乒乓球'},{id:'棒球',text:'棒球'}],horizontal:true"></label>
                 </div>
                 <div class="col-xs-2 text-right form-label">是否通过：</div>
                 <div class="col-xs-3 text-left form-content">
-                    <label class="editlabel-radio" valname="IsPass"
-                        data-options="missingMessage:'是否通过',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
+                    <label class="editlabel-radio"                         
+                    data-options="missingMessage:'是否通过',valname:'IsPass',novalidate:true,stage:2,data:[{id:'通过',text:'通过'},{id:'不通过',text:'不通过'}],horizontal:true"></label>
                 </div>
             </div>
             <div class="row">
@@ -307,7 +307,7 @@
             //初始化表单
             $('#div_center2').editlabel({
                 data: {
-                    UniqID: "Admin", RegeditTiem: "2019-01-01T00:00:00", RegistrationProvince: "四川省", LinkMan: "联系人甲", MianJi: '',
+                    UniqID: "Admin", RegeditTiem: "2019-01-01T00:00:00", IsPass:'通过', RegistrationProvince: "四川省", LinkMan: "联系人甲", MianJi: '',
                     BankCradNum: "5103 2432 3232 1123", Hobby: "蓝球,排球,", FileGroupList: {
                         "_Items": [
                             {

@@ -1278,7 +1278,7 @@
                 },
                 message: '电话号码或手机号码格式不正确'
             },
-            idcard: {// 验证身份证  
+            idcardByType: {// 验证身份证  
                 validator: function (value, type) {
                     value = $.trim(value);
                     var idcardType = $(type[0]).combobox('getValue');
@@ -2175,10 +2175,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         $(eleData).each(function (i, opteleData) {
             var attrs = '';
 
-            if (curValue) {
+            if (typeof (curValue) != 'undefined') {
                 if ((inputType == "checkbox" && ((typeof (curValue) == "string") ? curValue.indexOf(opteleData.id) > -1 : opteleData.id == curValue))) {
                     attrs = 'checked="checked"';
-                } else if ((inputType == "radio" && curValue && opteleData.id == curValue)) {
+                } else if ((inputType == "radio" && opteleData.id == curValue)) {
                     attrs = 'checked="checked"';
                 }
             } else {
@@ -2686,6 +2686,18 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                         if (fieldopt.valfield) {
                             _this.data("valfield_" + fieldopt.valfield, fieldopt.valfield.GetInstanceEx(dataBase));
                         }
+
+                        if(editClass == "radio" || editClass == "checkbox"){
+                            var val =fieldopt.value;
+                            if(fieldopt.textfield){
+                                fieldopt.value= fieldopt.textfield.GetInstanceEx(dataBase);
+                            }else{
+                                if(fieldopt.valname){
+                                    fieldopt.value= fieldopt.valname.GetInstanceEx(dataBase);
+                                }
+                            }
+                        }
+
                         $editele[editClass](fieldopt);
                         loadMustFill(_this, $editele, fieldopt);
                     }

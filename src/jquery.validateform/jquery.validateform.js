@@ -428,7 +428,7 @@
                 },
                 message: '电话号码或手机号码格式不正确'
             },
-            idcard: {// 验证身份证  
+            idcardByType: {// 验证身份证  
                 validator: function (value, type) {
                     value = $.trim(value);
                     var idcardType = $(type[0]).combobox('getValue');
