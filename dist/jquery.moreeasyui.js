@@ -2668,9 +2668,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                         if (editClass == "combobox") {
                             $.extend(fieldopt, {
                                 width: (fieldopt.width ? fieldopt.width : '99.5%'),
-                                onChange: function (curValue, oldValue) {
-                                    SetValue(fieldopt, curValue);
-                                },
                                 firstoption: fieldopt.nofirstoption ? null : (fieldopt.firstoption || { id: "", text: "===请选择===" })
                             });
                             if (field_opts.formatter) {
