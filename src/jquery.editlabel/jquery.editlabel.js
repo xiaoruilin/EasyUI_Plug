@@ -619,8 +619,8 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
         "numberbox", "datebox", "datetimebox", "datetimespinner", "calendar", "spinner", "numberspinner", "timespinner", "slider", "filebox","checkbox","radio"];
     var easyuiForms_date = ["datebox", "datetimebox", "datetimespinner", "calendar"];
     var easyuiForms_unvalcontrol = ["filegridui", "custom"];
-    var easyuiForms_compatible = ["input", "input-btntext", "textarea", "password", "select"];
-    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "textarea": "textbox", "password": "textbox", "select": "combobox" };
+    var easyuiForms_compatible = ["input", "input-btntext", "password", "select"];
+    var easyuiForms_compatible_compare = { "input": "textbox", "input-btntext": "textbox", "password": "textbox", "select": "combobox" };
 
     function formatdate(curValue) {
         if (curValue && curValue.indexOf(':') === -1) {
@@ -844,9 +844,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             }
 
                         }
-                        if (oldeditClass == "textarea") {
-                            $.extend(fieldopt, { multiline: true });
-                        }
 
                         //单独为textbox存valfield
                         if (fieldopt.valfield) {
@@ -877,6 +874,20 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
 
             //绑定对应的数据
             $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
+
+            $(_this).find('.editlabel-textarea').each(function () {
+                var $editele = $('<textarea class="easyui-tooltip" style="line-height: 1.42857143;width: 100%; height: 60px;font-size: 14px;"></textarea>');
+                var fieldopt = SetAttr($(this), $editele);
+                if(fieldopt.height){
+                    $editele.css("height",fieldopt.height);
+                }
+                if (_this.opts.validateform) $editele.addClass('easyui-validatebox');
+                $editele.validatebox();
+                $editele.bind("keyup", getEleVal);
+                $editele.bind("change", getEleVal);
+                $(this).after($editele);
+                loadMustFill(_this, $editele, fieldopt);
+            });
 
             // $(_this).find('.editlabel-checkbox').each(function () {
 
@@ -1153,6 +1164,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                             //如果是字符串有去掉左右空格
                             if (typeof (curValue) == 'string') {
                                 curValue = $.trim(curValue);
+                            }
+
+                            if(!field_opts.textfield){
+                                field_opts.textfield=field_opts.valname;
                             }
 
                             if (field_opts && field_opts.getVal) {
