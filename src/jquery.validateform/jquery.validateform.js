@@ -391,7 +391,7 @@
             },
             maxLength: { // 判断最小长度  
                 validator: function (value, param) {
-                    return value.length <= param[0];
+                    return $.trim(value).length <= param[0];
                 },
                 message: '最多输入 {0} 个字符'
             },

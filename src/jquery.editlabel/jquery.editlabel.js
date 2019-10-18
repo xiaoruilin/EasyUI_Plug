@@ -867,14 +867,6 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 }
             });
 
-            //optionsdatasou如果有下拉框数据源就绑定
-            if (_this.opts.optionsdatasou) {
-                $(_this).bindOptionDataByName(_this.opts.optionsdatasou, "optionsdata");
-            }
-
-            //绑定对应的数据
-            $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
-
             $(_this).find('.editlabel-textarea').each(function () {
                 var $editele = $('<textarea class="easyui-tooltip" style="line-height: 1.42857143;width: 100%; height: 60px;font-size: 14px;"></textarea>');
                 var fieldopt = SetAttr($(this), $editele);
@@ -888,6 +880,16 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 $(this).after($editele);
                 loadMustFill(_this, $editele, fieldopt);
             });
+
+            //optionsdatasou如果有下拉框数据源就绑定
+            if (_this.opts.optionsdatasou) {
+                $(_this).bindOptionDataByName(_this.opts.optionsdatasou, "optionsdata");
+            }
+
+            //绑定对应的数据
+            $(_this).bindViewValByAtr(dataBase, "valname", _this.opts.optionsdatasou, "optionsdata");
+
+            
 
             // $(_this).find('.editlabel-checkbox').each(function () {
 
