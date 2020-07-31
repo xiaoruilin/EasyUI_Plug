@@ -196,3 +196,6 @@ $('#div_center2').editlabel({
 
 ##### foldpanel (折叠框)
     使用$.fn.foldpanel.defaults重写默认值对象
+
+##### 常见问题：
+    1、editlabel-radio、editlabel-checkbox 不要使用valname会导至只有显示值不显示编辑按钮
