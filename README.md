@@ -198,4 +198,26 @@ $('#div_center2').editlabel({
     使用$.fn.foldpanel.defaults重写默认值对象
 
 ##### 常见问题：
-    1、editlabel-radio、editlabel-checkbox 不要使用valname会导至只有显示值不显示编辑按钮
+    1、editlabel-radio、editlabel-checkbox 不要使用valname会导至只有显示值不显示编辑按钮,data-options="textfield:'attrName'"
+    2、editlabel的 options.stages 影响组件得到焦点是否启动验证规则
+    3、easyui 修改 validType，注意修改为无验证还是得给 validType 赋值否则，修改不起作用。
+    ```html
+    <label valname="LeyalPersonIDCardType" class="editlabel-combobox" optionsdata="IDCardType"
+                data-options="missingMessage:'证件类型',stage:6,width:'345px',onChange:function (nV, oV) {
+                    if(nV){
+                        $('#Frsfzlx').text(nV+'号码');
+                    }
+                    var _$LeyalPersonIDCard=$('#CompanyInfo').editlabel('getEditor','LeyalPersonIDCard');
+                    if (nV == '身份证') {
+                        $(_$LeyalPersonIDCard).textbox({validType:'idcard',novalidate:false}).validatebox('enableValidation');
+                    } else {
+                        $(_$LeyalPersonIDCard).textbox({validType:'undefined',novalidate:true}).validatebox({validType:'undefined',novalidate:true}).validatebox('disableValidation');
+                    }
+                }">
+            </label>
+
+            <span id="Frsfzlx">身份证号码</span>
+
+            <label valname="LeyalPersonIDCard" class="editlabel-textbox" data-options="validType:'idcard',missingMessage:'请输入座机',novalidate:true,stage:6,width:'345px'"></label>
+
+    ```
