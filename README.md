@@ -221,3 +221,4 @@ $('#div_center2').editlabel({
             <label valname="LeyalPersonIDCard" class="editlabel-textbox" data-options="validType:'idcard',missingMessage:'请输入座机',novalidate:true,stage:6,width:'345px'"></label>
 
     ```
+    4、easyui的表单组件通过valfield来扩展其他值
