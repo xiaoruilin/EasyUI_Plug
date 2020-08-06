@@ -374,7 +374,7 @@
      * @param {any} opts 选项
      * @param {any} coltd 列的Td
      */
-    function LoadIsListTd(_this, col, colOptsb, i, opts, coltd) {
+    function LoadIsListTd(_this, col, colOptsb, i, opts, coltd,tablehtml) {
         //列表字段
         if (col.islist) {
             var $filelistdivList = coltd.find("div[class=filelistdiv]");
@@ -412,11 +412,17 @@
                         }
                     }
                 });
+                if(typeof(opts.onUonEmpty)!=="undefined"){
+                    opts.onUonEmpty.call(_this,opts,col, colOptsb, i, coltd,tablehtml);
+                }
             } else {
                 if (opts.isShow) {
                     $filelistdiv.append(col.emptyMessageForShow || opts.emptyMessageForShow);
                 } else {
                     $filelistdiv.append(col.emptyMessage || opts.emptyMessage);
+                }
+                if(typeof(opts.onEmpty)!=="undefined"){
+                    opts.onEmpty.call(_this,opts,col, colOptsb, i, coltd,tablehtml);
                 }
             }
 
@@ -546,7 +552,7 @@
                     }
 
                     //加载列表列
-                    LoadIsListTd(_this, col, colOptsb, i, opts, coltd);
+                    LoadIsListTd(_this, col, colOptsb, i, opts, coltd,tablehtml);
 
                     //向内部加入单元格值
                     if (colval) {
@@ -722,7 +728,8 @@
                 alert("文件组没有List列不能添加行文件！");
             }
             var coltd = $(jq[0]).find("td[islistrow='" + param.parentindex + "']");
-            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
+            var tablehtml=$(jq[0]).find("table");
+            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd,tablehtml);
             optsData.options = opts;
             $(jq[0]).data('filegridui', optsData);
         },
@@ -742,7 +749,8 @@
                 alert("文件组没有List列不能删除文件！");
             }
             var coltd = $(jq[0]).find("td[islistrow='" + param.parentindex + "']");
-            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd);
+            var tablehtml=$(jq[0]).find("table");
+            LoadIsListTd($(jq[0]), col, opts.data._Items[param.parentindex], param.parentindex, opts, coltd,tablehtml);
             optsData.options = opts;
             $(jq[0]).data('filegridui', optsData);
         },
@@ -834,6 +842,17 @@
         isLockFileDown: false,
         isShow: false,//如果是显示状态则会删除上传和删除按钮
         isFileGroup: true,//区分是否是文件组默认是否则系统自动加上Group结构
+        required:false,//只有非文件组的情况起作用
+        onUonEmpty:function(opts,col, colOptsb, i, coltd,tablehtml){
+            if(opts.required){
+                $(tablehtml).css({border:'1px solid #ccc'});
+            }
+        },//非文件组时的无数据调用
+        onEmpty:function(opts,col, colOptsb, i, coltd,tablehtml){
+            if(opts.required){
+                $(tablehtml).css({border:'1px solid #f49a5e'});
+            }
+        },//非文件组时的无数据调用
         fileGroupFileListAttr: "_Items",//当isFileGroup会起作用
         uploaderServer: undefined,//文件上传服务器地址
         onlyOneFile: false,
