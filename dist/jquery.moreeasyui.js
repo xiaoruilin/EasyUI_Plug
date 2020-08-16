@@ -473,6 +473,11 @@
         var dataBase = _this.opts.data._Items || _this.opts.data;
         var columns = _this.opts.columns;
         var opts = _this.opts;
+        //在初始开始处触发该事件
+        if(opts.isShow && typeof(opts.onBeforeShow)!=="undefined"){
+            opts.onBeforeShow.call(_this,opts,dataBase);
+        }
+
         _this.html('');
         if (_this.opts.onekeydown && !_this.opts.isLockFileDown) {
             var $onekeydownbtn = $('<button type="button" style="margin-left: 5PX;" class="btn btn-success btn-xs" >资料一键下载</button>');
@@ -606,9 +611,6 @@
                 $(this).attr('href', 'javascript:void(0)');
             });
         }
-
-
-
     }
 
     $.fn.filegridui = function (options, param) {
@@ -652,6 +654,11 @@
                 options: $.extend({}, $.fn.filegridui.defaults, $.fn.filegridui.parseOptions(this), options),
                 initobj: init(_this)
             });
+
+            //在显示完成处触发该事件
+            if(_this.opts.isShow && typeof(_this.opts.onAfterShow)!=="undefined"){
+                _this.opts.onAfterShow.call(_this,_this.opts,_this.opts.data);
+            }
             //}
         });
     };
@@ -841,6 +848,8 @@
         delFileConfirmMessage: "确定要删除该附件吗？",
         isLockFileDown: false,
         isShow: false,//如果是显示状态则会删除上传和删除按钮
+        onBeforeShow:function(){},//当在显示状态（即查看状态）前触发该方法
+        onAfterShow:function(){},//当在显示状态（即查看状态）后触发该方法
         isFileGroup: true,//区分是否是文件组默认是否则系统自动加上Group结构
         required:false,//只有非文件组的情况起作用
         onUonEmpty:function(opts,col, colOptsb, i, coltd,tablehtml){
