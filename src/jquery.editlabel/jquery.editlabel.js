@@ -670,6 +670,12 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
             }
             //如果是查看地状态则取消必填项
             if (!_this.opts.editable && fieldopt.required) fieldopt.required = false;
+            if(!_this.opts.editable){
+                if(fieldopt.showStyle){
+                    //如果是显示状态就将显示的样式给
+                    fieldopt.style=fieldopt.showStyle;
+                }
+            }
             $(this).filegridui(fieldopt);
             if (_this.opts.editable) {
                 loadMustFill(_this, $(this), fieldopt);
@@ -1013,6 +1019,10 @@ function appendCheckboxOrRadio($editele, inputType, fieldopt, eleData, curValue,
                 $(_el).show();
                 var field_opts = GetFieldOpts($(_el));
                 $(_el).css("word-break", "break-all");
+                if(field_opts.showStyle){
+                    $(_el).css(field_opts.showStyle);
+                }
+
                 var val = field_opts.textfield.GetInstanceEx(dataBase);
 
                 var editClass = _getEditClass(_el);
