@@ -383,6 +383,12 @@
                 },
                 message: '此为必选项！'
             },
+            minFloat: { // 限制金大小  
+                validator: function (value, param) {
+                    return parseFloat(value) <= param[0];
+                },
+                message: '请输入注册资本(限制100亿)'
+            },
             minLength: { // 判断最小长度  
                 validator: function (value, param) {
                     return value.length >= param[0];
@@ -409,7 +415,7 @@
             },
             mobile: {// 验证手机号码  
                 validator: function (value) {
-                    return /^(13|15|18|17)\d{9}$/i.test(value);
+                    return /^(13|14|15|16|18|17|19)\d{9}$/i.test(value);
                 },
                 message: '手机号码格式不正确'
             },
